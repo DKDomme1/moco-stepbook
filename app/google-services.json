@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "764583692761",
+    "project_id": "moco-stepbook",
+    "storage_bucket": "moco-stepbook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764583692761:android:e5a7c3ebc350d92842b1c8",
+        "android_client_info": {
+          "package_name": "com.example.stepbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764583692761-bll8rf2hlsg44e955l3b473rg34a6b3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzBbtulC4pq6Kk6J67NcUpcSRdlh7krv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764583692761-bll8rf2hlsg44e955l3b473rg34a6b3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
