@@ -18,6 +18,8 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.stepbook.databinding.ActivityAddPhotoBinding
+import com.example.stepbook.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -27,6 +29,8 @@ typealias LumaListener = (luma: Double) -> Unit
 
 class AddPhoto : AppCompatActivity() {
 
+    private lateinit var viewBinding: ActivityAddPhotoBinding
+
     private var imageCapture: ImageCapture? = null
 
     private lateinit var cameraExecutor: ExecutorService
@@ -34,7 +38,8 @@ class AddPhoto : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_photo)
+        viewBinding = ActivityAddPhotoBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -46,10 +51,7 @@ class AddPhoto : AppCompatActivity() {
 
 
         // Set up the listener for take photo button
-        val takePhoto: Button = findViewById(R.id.image_capture_button)
-        takePhoto.setOnClickListener { takePhoto()
-
-        }
+        viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -104,13 +106,11 @@ class AddPhoto : AppCompatActivity() {
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-
-
             // Preview
             val preview = Preview.Builder()
                 .build()
                 .also {
-                    it.setSurfaceProvider(findViewById(R.id.viewFinder)) //geht das so? ist eigentlich viewBinding.viewFinder.surfaceProvider in der klammer
+                    it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
 
             // Select back camera as a default
@@ -148,8 +148,7 @@ class AddPhoto : AppCompatActivity() {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
             mutableListOf (
-                Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
+                Manifest.permission.CAMERA
             ).apply {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)

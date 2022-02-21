@@ -15,11 +15,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val myDataset = Datasource().loadPhotos()
+        //val myDataset = Datasource().loadPhotos()
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
 
-        recyclerView.adapter = ItemAdapter(this, myDataset)
+        //recyclerView.adapter = ItemAdapter(this, myDataset)
 
         recyclerView.setHasFixedSize(false)
 
