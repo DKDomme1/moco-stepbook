@@ -2,5 +2,5 @@
     <string name="app_name">Stepbook</string>
     <string name="add_photo">Foto hinzufügen</string>
     <string name="take_photo">Foto machen</string>
-    <string name="from_galery">Aus Gallerie</string>
+    <string name="from_gallery">Aus Gallerie</string>
 </resources>
