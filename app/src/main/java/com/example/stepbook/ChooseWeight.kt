@@ -19,7 +19,7 @@ class ChooseWeight : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_weight)
 
-        //val uri : Uri? = intent.getStringExtra("Foto")?.toUri()
+        val uri : Uri? = intent.getStringExtra("Foto")?.toUri()
 
         val imageView : ImageView = findViewById(R.id.progress_Picture)
 

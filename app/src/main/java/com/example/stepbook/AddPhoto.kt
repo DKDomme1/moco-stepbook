@@ -16,7 +16,6 @@ import androidx.camera.core.*
 import java.util.concurrent.ExecutorService
 
 import android.os.Build
-import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -24,8 +23,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import com.example.stepbook.databinding.ActivityAddPhotoBinding
 import java.text.SimpleDateFormat
 import java.util.*
-
-typealias LumaListener = (luma: Double) -> Unit
 
 
 class AddPhoto : AppCompatActivity() {
