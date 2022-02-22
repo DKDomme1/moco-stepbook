@@ -3,8 +3,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.concurrent.Executors
@@ -13,6 +16,7 @@ import androidx.camera.core.*
 import java.util.concurrent.ExecutorService
 
 import android.os.Build
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -27,7 +31,13 @@ typealias LumaListener = (luma: Double) -> Unit
 class AddPhoto : AppCompatActivity() {
     private lateinit var viewBinding: ActivityAddPhotoBinding
 
+    private val REQUEST_CODE = 100
+
+    private var uri: Uri? = null;
+
     private var imageCapture: ImageCapture? = null
+
+
 
     private lateinit var cameraExecutor: ExecutorService
 
@@ -35,6 +45,9 @@ class AddPhoto : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityAddPhotoBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+
+
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -46,7 +59,9 @@ class AddPhoto : AppCompatActivity() {
         }
 
         // Set up the listeners for take photo and video capture buttons
-        viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
+        viewBinding.imageCaptureButton.setOnClickListener { takePhoto()
+            val intent = Intent(this, ChooseWeight::class.java)
+            startActivity(intent.putExtra("Foto", uri))}
         viewBinding.fromGalleryButton.setOnClickListener { fromGallery() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -74,6 +89,8 @@ class AddPhoto : AppCompatActivity() {
                 contentValues)
             .build()
 
+        this.uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
@@ -89,12 +106,18 @@ class AddPhoto : AppCompatActivity() {
                     val msg = "Foto gespeichert: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+
+
+
                 }
             }
         )
     }
 
-    private fun fromGallery() {}
+    private fun fromGallery() {
+        openGalleryForImage()
+
+    }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -141,13 +164,20 @@ class AddPhoto : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_CODE)
+    }
+
     companion object {
         private const val TAG = "Stepbook"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
             mutableListOf (
-                Manifest.permission.CAMERA
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ).apply {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -168,6 +198,20 @@ class AddPhoto : AppCompatActivity() {
                     Toast.LENGTH_SHORT).show()
                 finish()
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            //imageView.setImageURI(data?.data) // handle chosen image
+
+            val intent = Intent(this, ChooseWeight::class.java)
+
+            startActivity(intent.putExtra("Foto", data))
+
+
+
         }
     }
 }

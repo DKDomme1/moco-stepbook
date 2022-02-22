@@ -3,4 +3,8 @@
     <string name="add_photo">Foto hinzufügen</string>
     <string name="take_photo">Foto machen</string>
     <string name="from_gallery">Aus Gallerie</string>
+    <string name="accept_photo">Foto zur Gallerie hinzufügen</string>
+    <string name="choose_weight">Gewicht in Kg angeben</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
