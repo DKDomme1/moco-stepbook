@@ -5,7 +5,7 @@ import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
 
 data class FitPhoto (
-    @IntegerRes val weightResourceId: Int,
-    @DrawableRes val imageResourceId: Int,
-    @StringRes val dateResourceId: Int
+    val weight: Int,
+    val imageUri: String,
+    val date: String
 )

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepbook.R
 import com.example.stepbook.overview.FitPhoto
@@ -27,7 +28,7 @@ class ItemAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
 
-        holder.imageView.setImageResource(item.imageResourceId)
+        holder.imageView.setImageURI(item.imageUri.toUri())
     }
 
     override fun getItemCount(): Int {

@@ -20,6 +20,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.net.toUri
 import com.example.stepbook.databinding.ActivityAddPhotoBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,7 +31,7 @@ class AddPhoto : AppCompatActivity() {
 
     private val REQUEST_CODE = 100
 
-    private var uri: Uri? = null;
+    private var testUri: Uri? = null;
 
     private var imageCapture: ImageCapture? = null
 
@@ -57,8 +58,9 @@ class AddPhoto : AppCompatActivity() {
 
         // Set up the listeners for take photo and video capture buttons
         viewBinding.imageCaptureButton.setOnClickListener { takePhoto()
-            val intent = Intent(this, ChooseWeight::class.java)
-            startActivity(intent.putExtra("Foto", uri))}
+            }
+
+
         viewBinding.fromGalleryButton.setOnClickListener { fromGallery() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -84,9 +86,11 @@ class AddPhoto : AppCompatActivity() {
             .Builder(contentResolver,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 contentValues)
-            .build()
+            .build() // was davon uri? 
 
-        this.uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+
+        val testIntent = Intent(this, ChooseWeight::class.java)
 
         // Set up image capture listener, which is triggered after photo has
         // been taken
@@ -100,8 +104,12 @@ class AddPhoto : AppCompatActivity() {
 
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults){
-                    val msg = "Foto gespeichert: ${output.savedUri}"
+
+                    val msg = "${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+
+
+                    startActivity(testIntent.putExtra("Foto", msg))
                     Log.d(TAG, msg)
 
 
@@ -205,7 +213,7 @@ class AddPhoto : AppCompatActivity() {
 
             val intent = Intent(this, ChooseWeight::class.java)
 
-            startActivity(intent.putExtra("Foto", data))
+            startActivity(intent.putExtra("Foto", data?.data.toString()))
 
 
 
