@@ -11,11 +11,19 @@ class PublicWorkoutsViewModel : ViewModel() {
     private val workouts:MutableLiveData<List<WorkoutPlan>> = MutableLiveData<List<WorkoutPlan>>()
     //TODO remove this
     init {
-        arrayOf<Exercise>(Exercise("Name1", "Desc1")
-        Exercise("Name2", "Desc2")
-        Exercise("Name3", "Desc3")
-        Exercise("Name4", "Desc4")
-        Exercise("Name4", "Desc4")
+        val exercises = arrayOf<Exercise>(
+            Exercise("Name1", "Desc1"),
+            Exercise("Name2", "Desc2"),
+            Exercise("Name3", "Desc3"),
+            Exercise("Name4", "Desc4"),
+            Exercise("Name4", "Desc4")
+        )
+        var workoutUnits: List<WorkoutUnit> = emptyList<WorkoutUnit>()
+        for (unit in exercises){
+            workoutUnits = workoutUnits + WorkoutUnit(unit, 4,8,false,"")
+        }
+        val workout_plan = WorkoutPlan(workoutUnits,"Workout A", "");
+        FirebaseFirestore.getInstance().collection("workouts").add(workout_plan)
     }
 
     fun getLiveData() : LiveData<List<WorkoutPlan>>{
@@ -24,19 +32,21 @@ class PublicWorkoutsViewModel : ViewModel() {
     }
 
     private fun fetchData() {
-        //TODO refetch everytime (for now...)
+        //refetch everytime (for now...)
         workouts.value = emptyList()
+        //TODO exception handling ...
         FirebaseFirestore.getInstance()
             .collection("workouts")
             .get()
             .addOnSuccessListener { it ->
-                /*if(it != null){
-                    Log.d(TAG, "CollectionSnapshot data: ${it.documents}")
+                if(it != null){
+                    for (document in it){
+                        val fetched_obj = document.toObject(WorkoutPlan::class.java)
+                        workouts.value=workouts.value!! + fetched_obj
+                        Log.d(TAG, "added "+ fetched_obj.toString())
+                    }
                 } else {
                     Log.d(TAG, "no such collection")
-                }*/
-                for (document in it){
-                    Log.d(TAG, "data: ${document.toObject<WorkoutPlan>()}")
                 }
             }
             .addOnFailureListener { it ->

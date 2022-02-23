@@ -9,16 +9,17 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/top_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_fragment_container">
-    </androidx.fragment.app.FragmentContainerView>
+        app:layout_constraintBottom_toTopOf="@id/bottom_fragment_container"
+        />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent">
-    </androidx.fragment.app.FragmentContainerView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_fragment_container"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
