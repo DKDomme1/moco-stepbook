@@ -71,7 +71,7 @@ class AddPhoto : AppCompatActivity() {
         val imageCapture = imageCapture ?: return
 
         // Create time stamped name and MediaStore entry.
-        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.GERMAN)
+        val name = "stepbook" + SimpleDateFormat(FILENAME_FORMAT, Locale.GERMAN)
             .format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
@@ -86,7 +86,7 @@ class AddPhoto : AppCompatActivity() {
             .Builder(contentResolver,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 contentValues)
-            .build() // was davon uri? 
+            .build()
 
 
 

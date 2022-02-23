@@ -1,19 +1,34 @@
 package com.example.stepbook
 
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+
 import androidx.core.net.toUri
-import com.example.stepbook.overview.FitPhoto
-import java.time.LocalDate
+
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.lang.reflect.Array.get
+import java.net.URI
+import java.nio.channels.FileChannel
+
 import java.util.*
 
 class ChooseWeight : AppCompatActivity() {
+
+
 
 
 
@@ -24,13 +39,13 @@ class ChooseWeight : AppCompatActivity() {
 
         val uri : Uri? = intent.getStringExtra("Foto")?.toUri()
 
-        val imageView : ImageView = findViewById(R.id.progress_Picture) // geht
+        val imageView : ImageView = findViewById(R.id.progress_Picture)
 
-        imageView.setImageURI(uri) // geht, zeigt bild nicht
+        imageView.setImageURI(uri)
 
-        val button : Button = findViewById(R.id.accept_photo_button) // geht
+        val button : Button = findViewById(R.id.accept_photo_button)
 
-        val kiloText : EditText = findViewById(R.id.weight_input) // geht
+        val kiloText : EditText = findViewById(R.id.weight_input)
 
 
         button.setOnClickListener {
@@ -45,9 +60,23 @@ class ChooseWeight : AppCompatActivity() {
                     toast.show()
                 }else{
 
+                    val storeDirectory = this.getExternalFilesDir(Environment.DIRECTORY_DCIM)
 
+                    Log.d(TAG, "onCreate: $storeDirectory")
+                    val month : Int = Calendar.getInstance().get(Calendar.MONTH) + 1
+                    val dateString : String = (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).toString() + "." + month.toString() + "." + Calendar.getInstance().get(Calendar.YEAR).toString()
 
-                    val foto : FitPhoto = FitPhoto(kilo, uri.toString(), Calendar.getInstance().toString())
+                    val file = File(storeDirectory, dateString + "." + kilo.toString()+".jpg")
+
+                    val stream : OutputStream = FileOutputStream(file)
+
+                    val drawable = imageView.drawable
+
+                    val bitmap = (drawable as BitmapDrawable).bitmap
+
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+
+                    stream.close()
 
 
 
@@ -65,4 +94,6 @@ class ChooseWeight : AppCompatActivity() {
 
 
     }
+
+
 }

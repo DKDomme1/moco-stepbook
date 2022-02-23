@@ -11,11 +11,12 @@ import com.example.stepbook.data.Datasource
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val myDataset = Datasource().loadPhotos()
+        val myDataset = Datasource().loadPhotos()
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
 
