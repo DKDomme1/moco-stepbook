@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.stepbook.databinding.ActivityMainBinding
-import com.example.stepbook.training.PublicWorkoutsFragment
+import com.example.stepbook.training.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -26,11 +26,24 @@ class MainActivity : AppCompatActivity() {
             firestore.useEmulator("10.0.2.2", 8080)
             auth.useEmulator("10.0.2.2", 9099)
         }
+        val ex = listOf<Exercise>(
+            Exercise(null, "Ex1", "Desc1"),
+            Exercise(null, "Ex1", "Desc1"),
+            Exercise(null, "Ex1", "Desc1"),
+            Exercise(null, "Ex1", "Desc1"),
+            Exercise(null, "Ex1", "Desc1"),
+        )
+        var woUnits = emptyList<WorkoutUnit>()
+        for (exer in ex){
+            woUnits = woUnits + WorkoutUnit(exer, 4,8,"hint")
+        }
+        val woPlan = WorkoutPlan(null,woUnits,"Wo1", "Desc1")
 
         if (savedInstanceState == null){
             supportFragmentManager.commit {
+                val frament = ViewWorkoutFragment(woPlan)
                 setReorderingAllowed(true)
-                add<PublicWorkoutsFragment>(R.id.top_fragment_container)
+                add(R.id.top_fragment_container, frament)
             }
         }
     }

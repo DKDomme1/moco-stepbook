@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/exercise_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@id/view_exercise"
+                app:layout_constraintRight_toLeftOf="@id/sets"
+                android:text="Placeholder ex. name" />
+
+            <TextView
+                android:id="@+id/sets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@id/view_exercise"
+                app:layout_constraintRight_toLeftOf="@id/reps"
+                android:text="#Sets" />
+
+            <TextView
+                android:id="@+id/reps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@id/view_exercise"
+                app:layout_constraintRight_toLeftOf="@id/view_exercise"
+                android:text="#Reps/Minutes" />
+            <Button
+                android:id="@+id/view_exercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/workout_unit_hint"
+                android:textSize="11sp"
+                android:text="@string/view"/>
+
+        <TextView
+            android:id="@+id/workout_unit_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Placeholder workout unit hint"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

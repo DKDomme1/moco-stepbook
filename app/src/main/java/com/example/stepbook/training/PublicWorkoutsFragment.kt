@@ -36,14 +36,12 @@ class PublicWorkoutsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val view = binding.root
         val model:PublicWorkoutsViewModel by viewModels()
 
         val livedata = model.getLiveData()
         val adapter = PublicWorkoutsAdapter(livedata)
-        binding.publicWorkoutsRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.publicWorkoutsRecyclerView.adapter = adapter
-        binding.publicWorkoutsRecyclerView.setHasFixedSize(true)
+        binding.publicWorkouts.adapter = adapter
+        binding.publicWorkouts.setHasFixedSize(true)
         livedata.observe(this, Observer<List<WorkoutPlan>> {
             //TODO yeah i know its not efficent but time is running short...
             adapter.notifyDataSetChanged()
