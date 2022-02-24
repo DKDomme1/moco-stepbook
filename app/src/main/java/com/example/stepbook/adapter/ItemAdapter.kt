@@ -1,37 +1,53 @@
 package com.example.stepbook.adapter
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepbook.R
 import com.example.stepbook.data.PhotoInformations
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-class ItemAdapter(
-    private val context: Context,
-    private val dataset: ArrayList<PhotoInformations>
-    ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
-    class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
-        val imageView: ImageView = view.findViewById(R.id.item_title)
+
+class ItemAdapter(var pathList : ArrayList<PhotoInformations>) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+
+    var pathsList : ArrayList<PhotoInformations> = pathList
+
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.card_layout, parent, false)
+
+
+
+        return ViewHolder(v)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item, parent, false)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val uriString: String = pathsList[position].path + "/" + pathsList[position].name
 
-        return ItemViewHolder(adapterLayout)
-    }
-
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = dataset[position]
-
-        holder.imageView.setImageURI(item.path.toUri())
+        holder.imageView.setImageURI(uriString.toUri())
     }
 
     override fun getItemCount(): Int {
-        return dataset.size
+        return pathsList.size
+
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val imageView: ImageView = itemView.findViewById(R.id.item_image)
+
+        init {
+            imageView.setOnClickListener {
+
+            }
+        }
+
     }
 }
