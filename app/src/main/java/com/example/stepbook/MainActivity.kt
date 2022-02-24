@@ -1,10 +1,13 @@
 package com.example.stepbook
 
+import android.content.ClipData
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -29,11 +32,22 @@ class MainActivity : AppCompatActivity() {
 
        readList()
 
-        layoutManager = LinearLayoutManager(this)
+
+
+        layoutManager =  GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
 
         adapter = ItemAdapter(pathsList!!)
         recyclerView.adapter = adapter
+        (adapter as ItemAdapter).setOnItemClickListener(object : ItemAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+               val intentP = Intent(this@MainActivity, PhotoView::class.java)
+                intentP.putExtra("path", pathsList!![position].path )
+                intentP.putExtra("name", pathsList!![position].name)
+                startActivity(intentP)
+            }
+
+        })
 
         val toCamButton: Button = findViewById(R.id.add_photo)
 

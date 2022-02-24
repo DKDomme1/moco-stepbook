@@ -6,18 +6,18 @@
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardBackgroundColor="#BFEFFF"
-    app:cardCornerRadius="12dp"
+    android:layout_margin="20dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="0dp"
     app:cardElevation="3dp"
-    app:contentPadding="4dp"
+    app:contentPadding="2dp"
     >
 
 
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />

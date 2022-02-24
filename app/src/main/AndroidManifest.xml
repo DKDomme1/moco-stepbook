@@ -18,11 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stepbook">
         <activity
+            android:name=".PhotoView"
+            android:exported="false" />
+        <activity
             android:name=".ChooseWeight"
             android:exported="false" />
         <activity
             android:name=".AddPhoto"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
