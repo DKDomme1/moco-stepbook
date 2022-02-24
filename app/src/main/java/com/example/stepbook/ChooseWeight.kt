@@ -2,6 +2,7 @@ package com.example.stepbook
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -15,18 +16,23 @@ import android.widget.ImageView
 import android.widget.Toast
 
 import androidx.core.net.toUri
-
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.lang.reflect.Array.get
-import java.net.URI
-import java.nio.channels.FileChannel
+import com.example.stepbook.data.PhotoInformations
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.io.*
+import java.lang.reflect.Type
 
 import java.util.*
+import kotlin.collections.ArrayList
+
+
+
+
 
 class ChooseWeight : AppCompatActivity() {
+
+    var pathsList : ArrayList<PhotoInformations>? = null
+    val LIST_KEY : String = "list_key"
 
 
 
@@ -65,18 +71,38 @@ class ChooseWeight : AppCompatActivity() {
                     Log.d(TAG, "onCreate: $storeDirectory")
                     val month : Int = Calendar.getInstance().get(Calendar.MONTH) + 1
                     val dateString : String = (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).toString() + "." + month.toString() + "." + Calendar.getInstance().get(Calendar.YEAR).toString()
+                    val name : String = dateString + "." + kilo.toString()+".jpg"
+                    val file = File(storeDirectory, name )
 
-                    val file = File(storeDirectory, dateString + "." + kilo.toString()+".jpg")
+
 
                     val stream : OutputStream = FileOutputStream(file)
-
                     val drawable = imageView.drawable
-
                     val bitmap = (drawable as BitmapDrawable).bitmap
-
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-
                     stream.close()
+
+
+
+                    val sharedPreferencesLoad : SharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE)
+                    val gsonLoad : Gson = Gson()
+                    val jsonLoad : String? = sharedPreferencesLoad.getString(LIST_KEY, null)
+                    val type = object : TypeToken<ArrayList<PhotoInformations?>?>() {}.type
+                    pathsList = gsonLoad.fromJson(jsonLoad, type)
+
+                    if(pathsList == null){
+                        pathsList = ArrayList()
+                    }
+
+                    pathsList?.add(PhotoInformations(storeDirectory.toString(), name))
+
+
+                    val sharedPreferencesSave : SharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE)
+                    val editor : SharedPreferences.Editor = sharedPreferencesSave.edit()
+                    val gsonSave : Gson = Gson()
+                    val jsonSave : String = gsonSave.toJson(pathsList)
+                    editor.putString(LIST_KEY, jsonSave)
+                    editor.apply()
 
 
 

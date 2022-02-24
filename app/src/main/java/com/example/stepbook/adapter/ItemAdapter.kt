@@ -8,11 +8,11 @@ import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepbook.R
-import com.example.stepbook.overview.FitPhoto
+import com.example.stepbook.data.PhotoInformations
 
 class ItemAdapter(
     private val context: Context,
-    private val dataset: List<FitPhoto>
+    private val dataset: ArrayList<PhotoInformations>
     ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
         val imageView: ImageView = view.findViewById(R.id.item_title)
@@ -28,7 +28,7 @@ class ItemAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
 
-        holder.imageView.setImageURI(item.imageUri.toUri())
+        holder.imageView.setImageURI(item.path.toUri())
     }
 
     override fun getItemCount(): Int {
