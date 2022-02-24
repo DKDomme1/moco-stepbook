@@ -40,7 +40,11 @@ class PublicWorkoutsFragment : Fragment() {
 
         val livedata = model.getLiveData()
         val adapter = PublicWorkoutsAdapter(livedata)
+        val layoutManager = object : LinearLayoutManager(this.context){
+            override fun canScrollVertically(): Boolean { return false }
+        }
         binding.publicWorkouts.adapter = adapter
+        binding.publicWorkouts.layoutManager = layoutManager
         binding.publicWorkouts.setHasFixedSize(true)
         livedata.observe(this, Observer<List<WorkoutPlan>> {
             //TODO yeah i know its not efficent but time is running short...

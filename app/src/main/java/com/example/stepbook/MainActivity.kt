@@ -2,7 +2,6 @@ package com.example.stepbook
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.stepbook.databinding.ActivityMainBinding
 import com.example.stepbook.training.*
@@ -41,9 +40,10 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null){
             supportFragmentManager.commit {
-                val frament = ViewWorkoutFragment(woPlan)
+                val viewWorkoutFragment = ViewWorkoutFragment(woPlan)
+                val viewExerciseFragment = ViewExerciseFragment(ex[0])
                 setReorderingAllowed(true)
-                add(R.id.top_fragment_container, frament)
+                add(R.id.top_fragment_container, viewWorkoutFragment)
             }
         }
     }
