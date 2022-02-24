@@ -1,20 +1,17 @@
-package com.example.stepbook.training
+package com.example.stepbook.training.fragments
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.stepbook.R
+import com.example.stepbook.training.data.WorkoutPlan
 import com.example.stepbook.databinding.PublicWorkoutsBinding
+import com.example.stepbook.common.FirestoreViewModel
+import com.example.stepbook.training.adapters.PublicWorkoutsAdapter
 
 class PublicWorkoutsFragment : Fragment() {
 
@@ -36,9 +33,10 @@ class PublicWorkoutsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val model:PublicWorkoutsViewModel by viewModels()
+        val model: FirestoreViewModel by activityViewModels()
+        if (savedInstanceState == null) model.fetchPublicWorkouts()
 
-        val livedata = model.getLiveData()
+        val livedata = model.getPublicWorkouts()
         val adapter = PublicWorkoutsAdapter(livedata)
         val layoutManager = object : LinearLayoutManager(this.context){
             override fun canScrollVertically(): Boolean { return false }
@@ -47,8 +45,13 @@ class PublicWorkoutsFragment : Fragment() {
         binding.publicWorkouts.layoutManager = layoutManager
         binding.publicWorkouts.setHasFixedSize(true)
         livedata.observe(this, Observer<List<WorkoutPlan>> {
-            //TODO yeah i know its not efficent but time is running short...
             adapter.notifyDataSetChanged()
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val model: FirestoreViewModel by activityViewModels()
+        model.fetchPublicWorkouts()
     }
 }

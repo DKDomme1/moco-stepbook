@@ -1,4 +1,4 @@
-package com.example.stepbook.training
+package com.example.stepbook.training.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,20 +7,23 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LiveData
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepbook.R
+import com.example.stepbook.training.data.WorkoutPlan
+import com.example.stepbook.training.fragments.PublicWorkoutsFragmentDirections
 
 class PublicWorkoutsAdapter(val data: LiveData<List<WorkoutPlan>>)
     : RecyclerView.Adapter<PublicWorkoutsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var workoutPlan:WorkoutPlan? = null
+        var workoutPlan: WorkoutPlan? = null
         val workoutName:TextView = itemView.findViewById(R.id.workout_title)
         val workoutImage:ImageView = itemView.findViewById(R.id.workout_image)
         val viewWorkoutButton:Button = itemView.findViewById(R.id.view_workout)
         val addWorkoutToList:Button = itemView.findViewById(R.id.add_workout_to_list)
 
-        fun setData(workoutPlan: WorkoutPlan){
+        fun setData(workoutPlan: WorkoutPlan, position: Int){
             this.workoutPlan = workoutPlan
 
             //TODO get workout image and set it here
@@ -28,10 +31,12 @@ class PublicWorkoutsAdapter(val data: LiveData<List<WorkoutPlan>>)
             workoutName.setText(workoutPlan.title)
 
             viewWorkoutButton.setOnClickListener {
-                //TODO go to next fragment
+                val action =PublicWorkoutsFragmentDirections
+                    .actionPublicWorkoutsFragmentToViewWorkoutFragment(position)
+                itemView.findNavController().navigate(action)
             }
             addWorkoutToList.setOnClickListener {
-                //TODO add to user list
+                TODO("add to user list")
             }
         }
 
@@ -44,7 +49,7 @@ class PublicWorkoutsAdapter(val data: LiveData<List<WorkoutPlan>>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(data.value!![position].copy())
+        holder.setData(data.value!![position].copy(), position)
     }
 
     override fun getItemCount(): Int {

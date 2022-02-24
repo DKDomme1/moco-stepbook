@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/trainingMenuFragment">
+
+    <fragment
+        android:id="@+id/publicWorkoutsFragment"
+        android:name="com.example.stepbook.training.fragments.PublicWorkoutsFragment"
+        android:label="PublicWorkoutsFragment" >
+        <action
+            android:id="@+id/action_publicWorkoutsFragment_to_viewWorkoutFragment"
+            app:destination="@id/viewWorkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewWorkoutFragment"
+        android:name="com.example.stepbook.training.fragments.ViewWorkoutFragment"
+        android:label="ViewWorkoutFragment" >
+        <argument
+            android:name="position"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_viewWorkoutFragment_to_viewExerciseFragment"
+            app:destination="@id/viewExerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewExerciseFragment"
+        android:name="com.example.stepbook.training.fragments.ViewExerciseFragment"
+        android:label="ViewExerciseFragment" >
+        <argument android:name="position"
+            app:argType="integer" />
+        <argument
+            android:name="workoutId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingMenuFragment"
+        android:name="com.example.stepbook.training.fragments.TrainingMenuFragment"
+        android:label="TrainingMenuFragment" >
+        <action
+            android:id="@+id/action_trainingMenuFragment_to_publicWorkoutsFragment"
+            app:destination="@id/publicWorkoutsFragment" />
+    </fragment>
+</navigation>

@@ -1,4 +1,4 @@
-package com.example.stepbook.training
+package com.example.stepbook.training.data
 
 data class WorkoutPlan(
     var docId:String? = null,

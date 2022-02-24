@@ -1,18 +1,25 @@
-package com.example.stepbook.training
+package com.example.stepbook.training.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.example.stepbook.R
-import com.example.stepbook.databinding.PublicWorkoutsBinding
 import com.example.stepbook.databinding.ViewWorkoutBinding
+import com.example.stepbook.common.FirestoreViewModel
+import com.example.stepbook.training.adapters.ViewWorkoutAdapter
 
-class ViewWorkoutFragment(val workout:WorkoutPlan) : Fragment() {
+class ViewWorkoutFragment : Fragment() {
+
+    private val model: FirestoreViewModel by activityViewModels()
+    private val args: ViewWorkoutFragmentArgs by navArgs()
 
     private var _binding : ViewWorkoutBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +36,12 @@ class ViewWorkoutFragment(val workout:WorkoutPlan) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val workout = model.getPublicWorkouts().value!![args.position]
         //TODO set workout image
         binding.workoutImage.setImageResource(R.drawable.placeholder)
 
         binding.workoutTitle.text = workout.title
         binding.workoutDescription.text = workout.description
-        binding.workoutUnits.adapter = ViewWorkoutAdapter(workout.workout_units)
+        binding.workoutUnits.adapter = ViewWorkoutAdapter(workout)
     }
 }
