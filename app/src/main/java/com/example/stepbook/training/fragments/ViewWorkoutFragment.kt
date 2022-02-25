@@ -10,14 +10,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stepbook.R
 import com.example.stepbook.databinding.ViewWorkoutBinding
-import com.example.stepbook.common.FirestoreViewModel
+import com.example.stepbook.common.FirestoreUtil
 import com.example.stepbook.training.adapters.ViewWorkoutAdapter
 import com.example.stepbook.training.data.WorkoutPlan
-import com.google.firebase.firestore.ktx.toObject
 
 class ViewWorkoutFragment : Fragment() {
 
-    private val model: FirestoreViewModel by activityViewModels()
     private val args: ViewWorkoutFragmentArgs by navArgs()
 
     private var _binding : ViewWorkoutBinding? = null
@@ -36,7 +34,7 @@ class ViewWorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        model.getWorkoutById(args.workoutId).addOnSuccessListener {
+        FirestoreUtil.getPublicWorkoutById(args.workoutId).addOnSuccessListener {
             val t = it.toObject(WorkoutPlan::class.java)
             if (t != null) workout = t
             //TODO set workout image

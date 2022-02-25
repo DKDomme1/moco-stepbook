@@ -13,7 +13,7 @@ import com.example.stepbook.R
 import com.example.stepbook.training.data.Exercise
 import com.example.stepbook.training.fragments.PublicExercisesFragmentDirections
 
-class PublicExercisesAdapter(val data: LiveData<List<Exercise>>)
+class PublicExercisesAdapter(val publicExercises: List<Exercise>)
     : RecyclerView.Adapter<PublicExercisesAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,10 +45,10 @@ class PublicExercisesAdapter(val data: LiveData<List<Exercise>>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(data.value!![position].copy())
+        holder.setData(publicExercises[position].copy())
     }
 
     override fun getItemCount(): Int {
-        return data.value!!.size
+        return publicExercises.size
     }
 }

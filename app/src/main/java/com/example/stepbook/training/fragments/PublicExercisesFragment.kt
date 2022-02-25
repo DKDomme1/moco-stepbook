@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import com.example.stepbook.common.FirestoreViewModel
+import com.example.stepbook.common.FirestoreUtil
 import com.example.stepbook.databinding.PublicExercisesBinding
 import com.example.stepbook.training.adapters.PublicExercisesAdapter
 import com.example.stepbook.training.data.Exercise
@@ -28,15 +27,18 @@ class PublicExercisesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val model: FirestoreViewModel by activityViewModels()
 
-        model.fetchPublicExercises()
-        val livedata = model.getPublicExercises()
-        val adapter = PublicExercisesAdapter(livedata)
-        binding.publicExercises.adapter = adapter
-        binding.publicExercises.setHasFixedSize(true)
-        livedata.observe(this, {
-            adapter.notifyDataSetChanged()
-        })
+        FirestoreUtil.fetchPublicExercises()
+            .addOnSuccessListener {
+                val exercises = ArrayList<Exercise>()
+                for (exercise in it.documents){
+                    exercise.toObject(Exercise::class.java)?.let { it1 -> exercises.add(it1) }
+                }
+                binding.publicExercises.adapter = PublicExercisesAdapter(exercises)
+                binding.publicExercises.setHasFixedSize(true)
+            }
+            .addOnFailureListener {
+                //TODO make toast
+            }
     }
 }

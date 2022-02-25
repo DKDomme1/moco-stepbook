@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.example.stepbook.training.data.Exercise
 import com.example.stepbook.databinding.ViewExerciseBinding
-import com.example.stepbook.common.FirestoreViewModel
+import com.example.stepbook.common.FirestoreUtil
 
 class ViewExerciseFragment : Fragment() {
     private var _binding : ViewExerciseBinding? = null
@@ -29,9 +29,8 @@ class ViewExerciseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val model: FirestoreViewModel by activityViewModels()
 
-        model.getExerciseById(args.exerciseId).addOnSuccessListener {
+        FirestoreUtil.getExerciseById(args.exerciseId).addOnSuccessListener {
             val t = it.toObject(Exercise::class.java)
             if(t != null) exercise = t
             binding.exerciseTitle.text = exercise.name

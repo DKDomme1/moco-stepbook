@@ -38,6 +38,7 @@
                 app:layout_constraintRight_toLeftOf="@id/view_workout"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:enabled="false"
                 android:text="@string/add_to_my_list" />
             <Button
                 android:id="@+id/view_workout"
