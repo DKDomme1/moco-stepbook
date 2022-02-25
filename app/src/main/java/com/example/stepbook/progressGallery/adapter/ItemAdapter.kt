@@ -1,20 +1,13 @@
-package com.example.stepbook.adapter
+package com.example.stepbook.progressGallery.adapter
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.example.stepbook.AddPhoto
 import com.example.stepbook.R
-import com.example.stepbook.data.PhotoInformations
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.stepbook.progressGallery.data.PhotoInformations
 
 
 class ItemAdapter(var pathList : ArrayList<PhotoInformations>) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {

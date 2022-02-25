@@ -1,4 +1,4 @@
-package com.example.stepbook
+package com.example.stepbook.progressGallery
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
@@ -20,7 +20,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.net.toUri
 import com.example.stepbook.databinding.ActivityAddPhotoBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,10 +55,7 @@ class AddPhoto : AppCompatActivity() {
             )
         }
 
-        // Set up the listeners for take photo and video capture buttons
-        viewBinding.imageCaptureButton.setOnClickListener { takePhoto()
-            }
-
+        viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
 
         viewBinding.fromGalleryButton.setOnClickListener { fromGallery() }
 
@@ -70,7 +66,7 @@ class AddPhoto : AppCompatActivity() {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
 
-        // Create time stamped name and MediaStore entry.
+        // Erstellt Timestamp Name und MediaStore eintrag
         val name = "stepbook" + SimpleDateFormat(FILENAME_FORMAT, Locale.GERMAN)
             .format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
@@ -81,7 +77,7 @@ class AddPhoto : AppCompatActivity() {
             }
         }
 
-        // Create output options object which contains file + metadata
+        // Erstellt outputOptions Objekt mit File und Metadata
         val outputOptions = ImageCapture.OutputFileOptions
             .Builder(contentResolver,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -92,8 +88,7 @@ class AddPhoto : AppCompatActivity() {
 
         val testIntent = Intent(this, ChooseWeight::class.java)
 
-        // Set up image capture listener, which is triggered after photo has
-        // been taken
+        // imageCapture listener, wird getriggert, nachdem das Foto gemacht wurde
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
@@ -128,7 +123,6 @@ class AddPhoto : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
-            // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             // Preview
@@ -141,7 +135,7 @@ class AddPhoto : AppCompatActivity() {
             imageCapture = ImageCapture.Builder()
                 .build()
 
-            // Select back camera as a default
+            // Wählt die hintere Kamera als Defaultkamera aus
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
@@ -209,7 +203,6 @@ class AddPhoto : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
-            //imageView.setImageURI(data?.data) // handle chosen image
 
             val intent = Intent(this, ChooseWeight::class.java)
 

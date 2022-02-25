@@ -18,16 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stepbook">
         <activity
-            android:name=".PhotoView"
+            android:name=".progressGallery.PhotoView"
             android:exported="false" />
         <activity
-            android:name=".ChooseWeight"
+            android:name=".progressGallery.ChooseWeight"
             android:exported="false" />
         <activity
-            android:name=".AddPhoto"
+            android:name=".progressGallery.AddPhoto"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".progressGallery.ProgressGallery"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

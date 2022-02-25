@@ -1,23 +1,21 @@
-package com.example.stepbook
+package com.example.stepbook.progressGallery
 
-import android.content.ClipData
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stepbook.R
 
-import com.example.stepbook.adapter.ItemAdapter
-import com.example.stepbook.data.PhotoInformations
+import com.example.stepbook.progressGallery.adapter.ItemAdapter
+import com.example.stepbook.progressGallery.data.PhotoInformations
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class ProgressGallery : AppCompatActivity() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter : RecyclerView.Adapter<ItemAdapter.ViewHolder>? = null
@@ -30,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-       readList()
+
+        readList()
 
 
 
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         (adapter as ItemAdapter).setOnItemClickListener(object : ItemAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
-               val intentP = Intent(this@MainActivity, PhotoView::class.java)
+               val intentP = Intent(this@ProgressGallery, PhotoView::class.java)
                 intentP.putExtra("path", pathsList!![position].path )
                 intentP.putExtra("name", pathsList!![position].name)
                 startActivity(intentP)
@@ -59,6 +58,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+    //Wieder Liste aus sharedPreferences lesen
     fun readList(){
         val sharedPreferencesLoad : SharedPreferences = getSharedPreferences("shared preferences",
             AppCompatActivity.MODE_PRIVATE
