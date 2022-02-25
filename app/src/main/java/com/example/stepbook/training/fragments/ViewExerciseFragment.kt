@@ -16,15 +16,13 @@ class ViewExerciseFragment : Fragment() {
     private val binding get() = _binding!!
     private val args:ViewExerciseFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var exercise = Exercise()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = ViewExerciseBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -33,19 +31,16 @@ class ViewExerciseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val model: FirestoreViewModel by activityViewModels()
 
-        lateinit var exercise: Exercise
-        if(args.workoutId != null){
-            exercise = model
-                .getWorkoutById(args.workoutId!!)
-                ?.workout_units
-                ?.get(args.position)?.exercise!!
-        } else {
-            exercise = model.getExercises().value!![args.position]
-        }
-        binding.exerciseTitle.text = exercise.name
-        binding.exerciseDescription.text = exercise.description
-        binding.noteExercise.setOnClickListener {
-            TODO("Go to fragemnt to enter a value to note down")
+        model.getExerciseById(args.exerciseId).addOnSuccessListener {
+            val t = it.toObject(Exercise::class.java)
+            if(t != null) exercise = t
+            binding.exerciseTitle.text = exercise.name
+            binding.exerciseDescription.text = exercise.description
+            binding.noteExercise.setOnClickListener {
+                TODO("Go to fragemnt to enter a value to note down")
+            }
+
+            binding.exerciseTitle.visibility = View.VISIBLE
         }
     }
 }

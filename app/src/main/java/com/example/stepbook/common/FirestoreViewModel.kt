@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.stepbook.training.data.Exercise
 import com.example.stepbook.training.data.WorkoutPlan
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FirestoreViewModel : ViewModel() {
@@ -14,10 +16,7 @@ class FirestoreViewModel : ViewModel() {
         MutableLiveData<List<WorkoutPlan>>()
     private val publicExercises: MutableLiveData<List<Exercise>> = MutableLiveData<List<Exercise>>()
     private val users: MutableLiveData<List<User>> = MutableLiveData<List<User>>()
-    //TODO
     private val myWorkouts: MutableLiveData<List<WorkoutPlan>> =
-        MutableLiveData<List<WorkoutPlan>>()
-    private val myExercises: MutableLiveData<List<WorkoutPlan>> =
         MutableLiveData<List<WorkoutPlan>>()
 
     init {
@@ -30,7 +29,7 @@ class FirestoreViewModel : ViewModel() {
     fun getPublicWorkouts() : LiveData<List<WorkoutPlan>> {
         return publicWorkouts
     }
-    fun getExercises() : LiveData<List<Exercise>> {
+    fun getPublicExercises() : LiveData<List<Exercise>> {
         return publicExercises
     }
     fun getUsers() : LiveData<List<User>> {
@@ -47,7 +46,6 @@ class FirestoreViewModel : ViewModel() {
                 for (document in it.documents){
                     val workout = document.toObject(WorkoutPlan::class.java)
                     if (workout != null) {
-                        workout.docId = document.id
                         workouts.add(workout)
                     }
                 }
@@ -65,7 +63,6 @@ class FirestoreViewModel : ViewModel() {
                     Log.d(TAG, "Exercise Success: $it \nDocuments: ${it.documents}")
                     val exercise = document.toObject(Exercise::class.java)
                     if (exercise != null) {
-                        exercise.docId = document.id
                         exercises.add(exercise)
                     }
                 }
@@ -74,22 +71,13 @@ class FirestoreViewModel : ViewModel() {
                 Log.d(TAG, "Exercise Failure: $it")
             }
     }
-    fun getWorkoutById(id:String): WorkoutPlan?{
-        for (workout in publicWorkouts.value!!){
-            if (workout.docId == id) return workout
-        }
-        return null
+    fun getWorkoutById(id:String): Task<DocumentSnapshot> {
+        return FirebaseFirestore.getInstance().collection("workouts").document(id).get()
     }
-    fun getExerciseById(id:String): Exercise?{
-        for (exercise in publicExercises.value!!){
-            if (exercise.docId == id) return exercise
-        }
-        return null
+    fun getExerciseById(id:String): Task<DocumentSnapshot>{
+        return FirebaseFirestore.getInstance().collection("exercises").document(id).get()
     }
-    fun getUserById(id:String): User?{
-        for (user in users.value!!){
-            if (user.uId == id) return user
-        }
-        return null
+    fun getUserById(id:String): Task<DocumentSnapshot>{
+        return FirebaseFirestore.getInstance().collection("users").document(id).get()
     }
 }

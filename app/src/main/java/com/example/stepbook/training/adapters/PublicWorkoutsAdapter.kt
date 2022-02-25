@@ -23,7 +23,7 @@ class PublicWorkoutsAdapter(val data: LiveData<List<WorkoutPlan>>)
         val viewWorkoutButton:Button = itemView.findViewById(R.id.view_workout)
         val addWorkoutToList:Button = itemView.findViewById(R.id.add_workout_to_list)
 
-        fun setData(workoutPlan: WorkoutPlan, position: Int){
+        fun setData(workoutPlan: WorkoutPlan){
             this.workoutPlan = workoutPlan
 
             //TODO get workout image and set it here
@@ -32,7 +32,7 @@ class PublicWorkoutsAdapter(val data: LiveData<List<WorkoutPlan>>)
 
             viewWorkoutButton.setOnClickListener {
                 val action =PublicWorkoutsFragmentDirections
-                    .actionPublicWorkoutsFragmentToViewWorkoutFragment(position)
+                    .actionPublicWorkoutsFragmentToViewWorkoutFragment(workoutPlan.docId!!)
                 itemView.findNavController().navigate(action)
             }
             addWorkoutToList.setOnClickListener {
@@ -49,7 +49,7 @@ class PublicWorkoutsAdapter(val data: LiveData<List<WorkoutPlan>>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(data.value!![position].copy(), position)
+        holder.setData(data.value!![position].copy())
     }
 
     override fun getItemCount(): Int {

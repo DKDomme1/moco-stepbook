@@ -15,25 +15,19 @@ import com.example.stepbook.training.fragments.ViewWorkoutFragmentDirections
 class ViewWorkoutAdapter(val workout: WorkoutPlan) : RecyclerView.Adapter<ViewWorkoutAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var workoutUnit: WorkoutUnit? = null
-        var position:Int? = null
-        var workoutId:String? = null
         val exerciseName:TextView = itemView.findViewById(R.id.exercise_name)
         val sets:TextView = itemView.findViewById(R.id.sets)
         val reps:TextView = itemView.findViewById(R.id.reps)
-        val hint:TextView = itemView.findViewById(R.id.workout_unit_hint)
         val viewExerciseBtn: Button = itemView.findViewById(R.id.view_exercise)
 
-        fun setData(workoutId:String?, workoutUnit: WorkoutUnit, position: Int) {
+        fun setData(workoutUnit: WorkoutUnit) {
             this.workoutUnit = workoutUnit
-            this.position = position
-            this.workoutId = workoutId
             exerciseName.setText(workoutUnit.exercise!!.name)
             sets.setText(workoutUnit.sets!!.toString())
             reps.setText(workoutUnit.reps!!.toString())
-            hint.setText(workoutUnit.hint!!)
             viewExerciseBtn.setOnClickListener {
                 val action = ViewWorkoutFragmentDirections
-                    .actionViewWorkoutFragmentToViewExerciseFragment(position,workoutId)
+                    .actionViewWorkoutFragmentToViewExerciseFragment(workoutUnit.exercise.docId!!)
                 itemView.findNavController().navigate(action)
             }
         }
@@ -47,7 +41,7 @@ class ViewWorkoutAdapter(val workout: WorkoutPlan) : RecyclerView.Adapter<ViewWo
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(workout.docId,workout.workout_units!![position].copy(),position)
+        holder.setData(workout.workout_units!![position].copy())
     }
 
     override fun getItemCount(): Int {

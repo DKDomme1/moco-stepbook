@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.stepbook.training.data.WorkoutPlan
-import com.example.stepbook.databinding.PublicWorkoutsBinding
 import com.example.stepbook.common.FirestoreViewModel
-import com.example.stepbook.training.adapters.PublicWorkoutsAdapter
+import com.example.stepbook.databinding.PublicExercisesBinding
+import com.example.stepbook.training.adapters.PublicExercisesAdapter
+import com.example.stepbook.training.data.Exercise
 
-class PublicWorkoutsFragment : Fragment() {
+class PublicExercisesFragment : Fragment() {
 
-    private var _binding : PublicWorkoutsBinding? = null
+    private var _binding : PublicExercisesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -23,7 +22,7 @@ class PublicWorkoutsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = PublicWorkoutsBinding.inflate(inflater,container,false)
+        _binding = PublicExercisesBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -31,11 +30,11 @@ class PublicWorkoutsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val model: FirestoreViewModel by activityViewModels()
 
-        model.fetchPublicWorkouts()
-        val livedata = model.getPublicWorkouts()
-        val adapter = PublicWorkoutsAdapter(livedata)
-        binding.publicWorkouts.adapter = adapter
-        binding.publicWorkouts.setHasFixedSize(true)
+        model.fetchPublicExercises()
+        val livedata = model.getPublicExercises()
+        val adapter = PublicExercisesAdapter(livedata)
+        binding.publicExercises.adapter = adapter
+        binding.publicExercises.setHasFixedSize(true)
         livedata.observe(this, {
             adapter.notifyDataSetChanged()
         })

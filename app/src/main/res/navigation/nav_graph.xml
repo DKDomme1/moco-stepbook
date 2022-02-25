@@ -16,24 +16,20 @@
         android:id="@+id/viewWorkoutFragment"
         android:name="com.example.stepbook.training.fragments.ViewWorkoutFragment"
         android:label="ViewWorkoutFragment" >
-        <argument
-            android:name="position"
-            app:argType="integer"
-            android:defaultValue="0" />
         <action
             android:id="@+id/action_viewWorkoutFragment_to_viewExerciseFragment"
             app:destination="@id/viewExerciseFragment" />
+        <argument
+            android:name="workoutId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/viewExerciseFragment"
         android:name="com.example.stepbook.training.fragments.ViewExerciseFragment"
         android:label="ViewExerciseFragment" >
-        <argument android:name="position"
-            app:argType="integer" />
         <argument
-            android:name="workoutId"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="exerciseId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/trainingMenuFragment"
@@ -42,6 +38,9 @@
         <action
             android:id="@+id/action_trainingMenuFragment_to_publicWorkoutsFragment"
             app:destination="@id/publicWorkoutsFragment" />
+        <action
+            android:id="@+id/action_trainingMenuFragment_to_publicExercisesFragment"
+            app:destination="@id/publicExercisesFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -50,5 +49,13 @@
         <action
             android:id="@+id/action_loginFragment_to_trainingMenuFragment"
             app:destination="@id/trainingMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/publicExercisesFragment"
+        android:name="com.example.stepbook.training.fragments.PublicExercisesFragment"
+        android:label="PublicExercisesFragment" >
+        <action
+            android:id="@+id/action_publicExercisesFragment_to_viewExerciseFragment"
+            app:destination="@id/viewExerciseFragment" />
     </fragment>
 </navigation>
