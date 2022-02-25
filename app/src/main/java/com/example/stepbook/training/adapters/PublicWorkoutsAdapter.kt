@@ -45,7 +45,7 @@ class PublicWorkoutsAdapter(
 
             viewWorkoutButton.setOnClickListener {
                 val action =PublicWorkoutsFragmentDirections
-                    .actionPublicWorkoutsFragmentToViewWorkoutFragment(workoutPlan.docId!!)
+                    .actionPublicWorkoutsFragmentToViewWorkoutFragment(workoutPlan.docId!!,  true)
                 itemView.findNavController().navigate(action)
             }
             if(addWorkoutToList.isEnabled) {

@@ -32,6 +32,13 @@ class FirestoreUtil{
         fun getPublicWorkoutById(id:String): Task<DocumentSnapshot> {
             return FirebaseFirestore.getInstance().collection(WORKOUTS_COLLECTION).document(id).get()
         }
+        fun getUserWorkoutById(id:String): Task<DocumentSnapshot> {
+            return FirebaseFirestore.getInstance()
+                .collection(USERS_COLLECTION)
+                .document(Firebase.auth.currentUser!!.uid)
+                .collection(WORKOUTS_COLLECTION)
+                .document(id).get()
+        }
         fun getExerciseById(id:String): Task<DocumentSnapshot>{
             return FirebaseFirestore.getInstance().collection(EXERCISES_COLLECTION).document(id).get()
         }

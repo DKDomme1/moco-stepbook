@@ -22,6 +22,9 @@
         <argument
             android:name="workoutId"
             app:argType="string" />
+        <argument
+            android:name="isPublic"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/viewExerciseFragment"
@@ -41,6 +44,9 @@
         <action
             android:id="@+id/action_trainingMenuFragment_to_publicExercisesFragment"
             app:destination="@id/publicExercisesFragment" />
+        <action
+            android:id="@+id/action_trainingMenuFragment_to_userWorkoutsFragment"
+            app:destination="@id/userWorkoutsFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -57,5 +63,13 @@
         <action
             android:id="@+id/action_publicExercisesFragment_to_viewExerciseFragment"
             app:destination="@id/viewExerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userWorkoutsFragment"
+        android:name="com.example.stepbook.training.fragments.UserWorkoutsFragment"
+        android:label="UserWorkoutsFragment" >
+        <action
+            android:id="@+id/action_userWorkoutsFragment_to_viewWorkoutFragment"
+            app:destination="@id/viewWorkoutFragment" />
     </fragment>
 </navigation>

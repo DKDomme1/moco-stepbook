@@ -25,6 +25,11 @@ class TrainingMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewUserWorkouts.setOnClickListener {
+            val action = TrainingMenuFragmentDirections
+                .actionTrainingMenuFragmentToUserWorkoutsFragment()
+            view.findNavController().navigate(action)
+        }
         binding.viewPublicWorkouts.setOnClickListener {
             val action = TrainingMenuFragmentDirections
                 .actionTrainingMenuFragmentToPublicWorkoutsFragment()

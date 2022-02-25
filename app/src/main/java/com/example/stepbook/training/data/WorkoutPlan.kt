@@ -6,6 +6,6 @@ data class WorkoutPlan(
     val workout_units: List<WorkoutUnit>? = null,
     val title:String? = null,
     val description:String? = null,
-    val isPublic:Boolean? = null,
+    var isPublic:Boolean? = null,
     val ownerUId:String? = null,
     )
