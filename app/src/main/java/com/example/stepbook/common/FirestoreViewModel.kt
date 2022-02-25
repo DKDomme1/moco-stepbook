@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.stepbook.training.data.Exercise
-import com.example.stepbook.training.data.User
 import com.example.stepbook.training.data.WorkoutPlan
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -89,7 +88,7 @@ class FirestoreViewModel : ViewModel() {
     }
     fun getUserById(id:String): User?{
         for (user in users.value!!){
-            if (user.docId == id) return user
+            if (user.uId == id) return user
         }
         return null
     }
