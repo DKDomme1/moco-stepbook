@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-    private val USE_FIREBASE_EMULATOR = true
+    private val USE_FIREBASE_EMULATOR = false
     private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

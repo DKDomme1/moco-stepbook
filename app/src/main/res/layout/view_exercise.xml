@@ -15,17 +15,19 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="Placeholder exercise title"/>
    <!--TODO add graph here in place of image view -->
-    <ImageView
+    <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/exercise_graph"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:elevation="10dp"
         android:layout_marginTop="8dp"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         app:layout_constraintTop_toBottomOf = "@id/exercise_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/placeholder" />
+        />
+
     <Button
         android:id="@+id/note_exercise"
         android:layout_width="wrap_content"

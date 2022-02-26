@@ -1,7 +1,10 @@
 package com.example.stepbook.common
 
+import com.example.stepbook.training.data.Exercise
+import com.example.stepbook.training.data.TrackedExercise
 import com.example.stepbook.training.data.WorkoutPlan
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,8 +16,10 @@ class FirestoreUtil{
         private const val USERS_COLLECTION = "users"
         private const val WORKOUTS_COLLECTION = "workouts"
         private const val EXERCISES_COLLECTION = "exercises"
+        private const val TRACKED_EXERCISES_COLLECTION = "exercise_data"
 
         private const val TAG = "FirestoreUtil"
+
 
         fun fetchPublicWorkouts() : Task<QuerySnapshot> {
             return FirebaseFirestore.getInstance()
@@ -109,6 +114,40 @@ class FirestoreUtil{
 
 
             return publicDocRef.set(publicWorkout).continueWithTask{userDocRef.set(userWorkout)}
+        }
+
+        fun addDataPointToExercise(value: Int, exercise: Exercise, trackedExercise: TrackedExercise?):Task<Void> {
+            val firestore = FirebaseFirestore.getInstance()
+            val uId = Firebase.auth.currentUser!!.uid
+            if (trackedExercise == null){
+                val newTrackedExercise = TrackedExercise(
+                    null,
+                    exercise.docId,
+                    HashMap<String,Int>().also { it[Timestamp.now().seconds.toString()] = value }
+                )
+                val docRef = firestore.collection(USERS_COLLECTION)
+                    .document(uId)
+                    .collection(TRACKED_EXERCISES_COLLECTION)
+                    .document()
+                newTrackedExercise.docId = docRef.id
+                return docRef.set(newTrackedExercise)
+            }
+            trackedExercise.datapoints!![Timestamp.now().seconds.toString()] = value
+            return firestore.collection(USERS_COLLECTION)
+                .document(uId)
+                .collection(TRACKED_EXERCISES_COLLECTION)
+                .document(trackedExercise.docId!!)
+                .set(trackedExercise)
+        }
+
+        fun getTrackedExercise(exercise: Exercise?) : Task<QuerySnapshot>{
+            val firestore = FirebaseFirestore.getInstance()
+            val uId = Firebase.auth.currentUser!!.uid
+            return firestore.collection(USERS_COLLECTION)
+                .document(uId)
+                .collection(TRACKED_EXERCISES_COLLECTION)
+                .whereEqualTo("exerciseDocId",exercise!!.docId)
+                .get()
         }
     }
 }
