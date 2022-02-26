@@ -76,7 +76,7 @@ class ExercisesFragment : Fragment() {
                         binding.exercises.setHasFixedSize(true)
                     }
                     .addOnFailureListener {
-                        //TODO make toast
+                        //TODO show some error..
                     }
             }
         }
