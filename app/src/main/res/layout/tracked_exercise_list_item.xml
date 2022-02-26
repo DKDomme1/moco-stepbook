@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp">
+        <Button
+            android:id="@+id/remove_datapoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/remove_point"/>
+        <TextView
+            android:id="@+id/datapoint_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/remove_datapoint"
+            android:layout_marginHorizontal="20dp"
+            android:text="name"/>
+        <TextView
+            android:id="@+id/datapoint_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@id/remove_datapoint"
+            app:layout_constraintLeft_toRightOf="@id/datapoint_name"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/remove_datapoint"
+            android:text="value"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

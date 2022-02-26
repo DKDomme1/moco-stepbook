@@ -22,4 +22,5 @@
     <string name="remove">Remove</string>
     <string name="save_workout">Save workout</string>
     <string name="publish_workout">Publish workout</string>
+    <string name="remove_point">Remove Point</string>
 </resources>

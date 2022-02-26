@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.stepbook.common.FirestoreUtil
 import com.example.stepbook.databinding.ViewExerciseBinding
+import com.example.stepbook.training.adapters.TrackedExerciseAdapter
 import com.example.stepbook.training.data.Exercise
 import com.example.stepbook.training.data.TrackedExercise
 import com.github.mikephil.charting.charts.LineChart
@@ -53,6 +54,7 @@ class ViewExerciseFragment : Fragment() {
                     if (docs.size > 0) docs[0].toObject(TrackedExercise::class.java) else null
                 binding.exerciseTitle.text = exercise.name
                 binding.exerciseDescription.text = exercise.description
+                binding.exerciseTitle.visibility = View.VISIBLE
                 renderChart(binding.exerciseGraph, trackedExercise)
                 binding.noteExercise.setOnClickListener {
                     EnterExerciseDataDialogFragment { value ->
@@ -70,8 +72,8 @@ class ViewExerciseFragment : Fragment() {
                         EnterExerciseDataDialogFragment.TAG
                     )
                 }
+                binding.datapoints.adapter = TrackedExerciseAdapter(trackedExercise, {setupViews()})
 
-                binding.exerciseTitle.visibility = View.VISIBLE
             } else {
                 Toast.makeText(context, it.exception!!.message.toString(), Toast.LENGTH_SHORT)
                     .show()
@@ -86,14 +88,16 @@ class ViewExerciseFragment : Fragment() {
             val relativeTime = (it.toLong() - Timestamp.now().seconds)
             data.add(
                 Entry(
-                    relativeTime.toFloat() / 60,
+                    relativeTime.toFloat(),
                     trackedExercise.datapoints?.get(it)!!.toFloat()
                 )
             )
         }
+        var counter = 0f
         data.sortBy { it.x }
+        val processedData = data.map { Entry(counter++,it.y) }
         //data.map { Entry(Timestamp(it.x.toLong(),0), it.y) }
-        val lineDataSet = LineDataSet(data, "Data")
+        val lineDataSet = LineDataSet(processedData, "Data")
         lineDataSet.setDrawCircles(true)
         lineDataSet.enableDashedLine(10f, 0f, 0f)
         lineDataSet.enableDashedHighlightLine(10f, 0f, 0f)
