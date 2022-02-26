@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
         Log.d(TAG,woUnits.toString())
         val docRef = FirebaseFirestore.getInstance().collection("workouts").document()
-        val woPlan = WorkoutPlan(docRef.id,woUnits,"Wo1", "Desc1")
+        val woPlan = WorkoutPlan(docRef.id,null,woUnits,"Wo1", "Desc1",true)
         docRef.set(woPlan)
         //firestore.collection("workouts").add(woPlan)
     }

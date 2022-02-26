@@ -6,15 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.example.stepbook.common.FirestoreUtil
 import com.example.stepbook.databinding.PublicExercisesBinding
 import com.example.stepbook.training.adapters.PublicExercisesAdapter
 import com.example.stepbook.training.data.Exercise
 
 class PublicExercisesFragment : Fragment() {
-
+    enum class Action{
+        CHOOSE_EXERCISE,
+        VIEW_EXERCISE
+    }
     private var _binding : PublicExercisesBinding? = null
     private val binding get() = _binding!!
+
+    private val args:PublicExercisesFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +40,7 @@ class PublicExercisesFragment : Fragment() {
                 for (exercise in it.documents){
                     exercise.toObject(Exercise::class.java)?.let { it1 -> exercises.add(it1) }
                 }
-                binding.publicExercises.adapter = PublicExercisesAdapter(exercises)
+                binding.publicExercises.adapter = PublicExercisesAdapter(exercises, this)
                 binding.publicExercises.setHasFixedSize(true)
             }
             .addOnFailureListener {

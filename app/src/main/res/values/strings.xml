@@ -14,4 +14,12 @@
     <string name="register">Register</string>
     <string name="email">Email:</string>
     <string name="password">Password:</string>
+    <string name="remove_from_list">Remove</string>
+    <string name="name">Name:</string>
+    <string name="description">Description:</string>
+    <string name="add_workout_unit">Add Workout Unit</string>
+    <string name="choose">Choose</string>
+    <string name="remove">Remove</string>
+    <string name="save_workout">Save workout</string>
+    <string name="publish_workout">Publish workout</string>
 </resources>

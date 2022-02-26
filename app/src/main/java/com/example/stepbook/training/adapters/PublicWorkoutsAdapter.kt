@@ -1,5 +1,6 @@
 package com.example.stepbook.training.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,38 +11,40 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stepbook.R
+import com.example.stepbook.common.FirestoreUtil
 import com.example.stepbook.training.data.WorkoutPlan
 import com.example.stepbook.training.fragments.PublicWorkoutsFragmentDirections
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 
 class PublicWorkoutsAdapter(
     private val publicWorkouts: List<WorkoutPlan>,
-    val userWorkouts: List<WorkoutPlan>?)
+    val userWorkouts: List<WorkoutPlan>)
     : RecyclerView.Adapter<PublicWorkoutsAdapter.ViewHolder>() {
 
+    private val TAG = "PublicWorkoutsAdapter"
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val TAG = "ViewHolder"
         var workoutPlan: WorkoutPlan? = null
         val workoutName:TextView = itemView.findViewById(R.id.workout_title)
         val workoutImage:ImageView = itemView.findViewById(R.id.workout_image)
         val viewWorkoutButton:Button = itemView.findViewById(R.id.view_workout)
         val addWorkoutToList:Button = itemView.findViewById(R.id.add_workout_to_list)
 
-        fun setData(workoutPlan: WorkoutPlan, userWorkouts: List<WorkoutPlan>?){
+        fun setData(workoutPlan: WorkoutPlan, userWorkouts: List<WorkoutPlan>){
             this.workoutPlan = workoutPlan
 
             //TODO get workout image and set it here
             workoutImage.setImageResource(R.drawable.placeholder)
-            workoutName.setText(workoutPlan.title)
+            workoutName.text = workoutPlan.title
 
             var alreadyInList = false
-            if (userWorkouts != null){
-                for (workout in userWorkouts)
-                    if(workout.docId == workoutPlan.docId) alreadyInList = true
+            for (userWorkout in userWorkouts){
+                if (workoutPlan.docId == userWorkout.publicDocId){
+                    alreadyInList = true
+                    break
+                }
             }
-
-            addWorkoutToList.isEnabled = !alreadyInList && userWorkouts != null
+            addWorkoutToList.isEnabled = !alreadyInList
 
             viewWorkoutButton.setOnClickListener {
                 val action =PublicWorkoutsFragmentDirections
@@ -51,24 +54,21 @@ class PublicWorkoutsAdapter(
             if(addWorkoutToList.isEnabled) {
                 addWorkoutToList.setOnClickListener {
                     addWorkoutToList.isEnabled = false
-                    FirebaseFirestore.getInstance()
-                        .collection("users")
-                        .document(Firebase.auth.currentUser!!.uid)
-                        .collection("workouts")
-                        .add(workoutPlan)
-                        .addOnSuccessListener {
-
+                    FirestoreUtil.addPublicWorkoutToUserWorkouts(workoutPlan.docId!!).addOnCompleteListener {
+                        if (it.isSuccessful){
+                            Log.d(TAG, "Successfully added to list")
                             Toast.makeText(
                                 itemView.context, "Workout has been added to your list !",
-                                Toast.LENGTH_SHORT
+                            Toast.LENGTH_SHORT
                             ).show()
-                        }
-                        .addOnFailureListener {
+                        }else{
+                            Log.d(TAG, it.exception?.message!!)
                             Toast.makeText(
-                                itemView.context, it.message,
+                                itemView.context, it.exception!!.message,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                    }
                 }
             }
         }
@@ -82,7 +82,7 @@ class PublicWorkoutsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(publicWorkouts[position].copy(), userWorkouts)
+        holder.setData(publicWorkouts[position], userWorkouts)
     }
 
     override fun getItemCount(): Int {

@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.example.stepbook.databinding.TrainingMenuBinding
+import com.example.stepbook.training.viewmodels.CreateWorkoutViewModel
 
 class TrainingMenuFragment : Fragment() {
 
@@ -25,20 +27,28 @@ class TrainingMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navC = view.findNavController()
         binding.viewUserWorkouts.setOnClickListener {
             val action = TrainingMenuFragmentDirections
                 .actionTrainingMenuFragmentToUserWorkoutsFragment()
-            view.findNavController().navigate(action)
+            navC.navigate(action)
+        }
+        binding.createWorkout.setOnClickListener {
+            val model:CreateWorkoutViewModel by activityViewModels()
+            model.workoutUnits.clear()
+            val action = TrainingMenuFragmentDirections
+                .actionTrainingMenuFragmentToCreateWorkoutFragment()
+            navC.navigate(action)
         }
         binding.viewPublicWorkouts.setOnClickListener {
             val action = TrainingMenuFragmentDirections
                 .actionTrainingMenuFragmentToPublicWorkoutsFragment()
-            view.findNavController().navigate(action)
+            navC.navigate(action)
         }
         binding.viewPublicExercises.setOnClickListener {
             val action = TrainingMenuFragmentDirections
                 .actionTrainingMenuFragmentToPublicExercisesFragment()
-            view.findNavController().navigate(action)
+            navC.navigate(action)
         }
     }
 }
