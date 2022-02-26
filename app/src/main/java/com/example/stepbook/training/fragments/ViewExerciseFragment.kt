@@ -20,19 +20,19 @@ import com.google.firebase.Timestamp
 
 
 class ViewExerciseFragment : Fragment() {
-    private var _binding : ViewExerciseBinding? = null
+    private var _binding: ViewExerciseBinding? = null
     private val binding get() = _binding!!
-    private val args:ViewExerciseFragmentArgs by navArgs()
+    private val args: ViewExerciseFragmentArgs by navArgs()
 
     private var exercise = Exercise()
-    private var trackedExercise:TrackedExercise? = null
+    private var trackedExercise: TrackedExercise? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ViewExerciseBinding.inflate(inflater,container,false)
+        _binding = ViewExerciseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,26 +41,29 @@ class ViewExerciseFragment : Fragment() {
         setupViews()
     }
 
-    private fun setupViews(){
+    private fun setupViews() {
         var trackedExercise: TrackedExercise?
         FirestoreUtil.getExerciseById(args.exerciseId).continueWithTask {
-            exercise = it.getResult().toObject(Exercise::class.java)!!
-            FirestoreUtil.getTrackedExercise(exercise)
+            exercise = it.result.toObject(Exercise::class.java)!!
+            FirestoreUtil.getTrackedExerciseByPublicExercise(exercise)
         }.addOnCompleteListener {
-            if(it.isSuccessful){
+            if (it.isSuccessful) {
                 val docs = it.result.documents
                 trackedExercise =
                     if (docs.size > 0) docs[0].toObject(TrackedExercise::class.java) else null
                 binding.exerciseTitle.text = exercise.name
                 binding.exerciseDescription.text = exercise.description
-                renderChart(binding.exerciseGraph,trackedExercise)
+                renderChart(binding.exerciseGraph, trackedExercise)
                 binding.noteExercise.setOnClickListener {
                     EnterExerciseDataDialogFragment { value ->
-                        FirestoreUtil.addDataPointToExercise(value, exercise, trackedExercise)
-                            .addOnCompleteListener{
-                            //make the OS reload this fragment
-                            parentFragmentManager.beginTransaction().detach(this).attach(this).commit();
-                            setupViews()
+                        if (value > 0) {
+                            FirestoreUtil.addDataPointToExercise(value, exercise, trackedExercise)
+                                .addOnCompleteListener {
+                                    //make the OS reload this fragment
+                                    parentFragmentManager.beginTransaction().detach(this)
+                                        .attach(this).commit()
+                                    setupViews()
+                                }
                         }
                     }.show(
                         childFragmentManager,
@@ -70,31 +73,43 @@ class ViewExerciseFragment : Fragment() {
 
                 binding.exerciseTitle.visibility = View.VISIBLE
             } else {
-                Toast.makeText(context,it.exception!!.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, it.exception!!.message.toString(), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
-    private fun renderChart(chart: LineChart, trackedExercise: TrackedExercise?){
+    private fun renderChart(chart: LineChart, trackedExercise: TrackedExercise?) {
         if (trackedExercise == null) return
         val data = ArrayList<Entry>()
         trackedExercise.datapoints?.keys?.forEach {
-            data.add(Entry(it.toFloat(),trackedExercise.datapoints?.get(it)!!.toFloat()))
+            val relativeTime = (it.toLong() - Timestamp.now().seconds)
+            data.add(
+                Entry(
+                    relativeTime.toFloat() / 60,
+                    trackedExercise.datapoints?.get(it)!!.toFloat()
+                )
+            )
         }
         data.sortBy { it.x }
         //data.map { Entry(Timestamp(it.x.toLong(),0), it.y) }
         val lineDataSet = LineDataSet(data, "Data")
         lineDataSet.setDrawCircles(true)
-        lineDataSet.enableDashedLine(10f, 0f,0f)
-        lineDataSet.enableDashedHighlightLine(10f, 0f,0f)
+        lineDataSet.enableDashedLine(10f, 0f, 0f)
+        lineDataSet.enableDashedHighlightLine(10f, 0f, 0f)
         val lineData = LineData(lineDataSet)
+        lineData.setValueTextColor(Color.BLACK)
+        chart.data = lineData
         chart.setTouchEnabled(true)
-        chart.setPinchZoom(true)
+        chart.setScaleEnabled(true)
+        chart.setPinchZoom(false)
+        chart.isDoubleTapToZoomEnabled = false
         chart.description.isEnabled = false
         chart.setBackgroundColor(Color.WHITE)
         chart.setGridBackgroundColor(Color.LTGRAY)
         chart.setDrawBorders(false)
-        chart.setData(lineData)
+        chart.fitScreen()
+        chart.resetViewPortOffsets()
         chart.invalidate()
     }
 }

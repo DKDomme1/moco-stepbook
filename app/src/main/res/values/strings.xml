@@ -3,7 +3,7 @@
     <string name="placeholder_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="view">View</string>
     <string name="add_to_my_list">Add to my list</string>
-    <string name="take_note_of_excercise">Take note of exercise</string>
+    <string name="take_note_of_excercise">Enter Datapoint</string>
     <string name="my_workouts">My Workouts</string>
     <string name="exercises">Exercises</string>
     <string name="create_a_workout">Create a workout</string>

@@ -12,7 +12,7 @@ import com.example.stepbook.training.viewmodels.CreateWorkoutViewModel
 
 class TrainingMenuFragment : Fragment() {
 
-    private var _binding : TrainingMenuBinding? = null
+    private var _binding: TrainingMenuBinding? = null
     private val binding get() = _binding!!
 
 
@@ -21,7 +21,7 @@ class TrainingMenuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = TrainingMenuBinding.inflate(inflater,container,false)
+        _binding = TrainingMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,20 +34,25 @@ class TrainingMenuFragment : Fragment() {
             navC.navigate(action)
         }
         binding.createWorkout.setOnClickListener {
-            val model:CreateWorkoutViewModel by activityViewModels()
+            val model: CreateWorkoutViewModel by activityViewModels()
             model.workoutUnits.clear()
             val action = TrainingMenuFragmentDirections
                 .actionTrainingMenuFragmentToCreateWorkoutFragment()
             navC.navigate(action)
         }
         binding.viewPublicWorkouts.setOnClickListener {
-            val action = TrainingMenuFragmentDirections
-                .actionTrainingMenuFragmentToPublicWorkoutsFragment()
+            val action =
+                TrainingMenuFragmentDirections.actionTrainingMenuFragmentToPublicWorkoutsFragment()
             navC.navigate(action)
         }
         binding.viewPublicExercises.setOnClickListener {
             val action = TrainingMenuFragmentDirections
-                .actionTrainingMenuFragmentToPublicExercisesFragment()
+                .actionTrainingMenuFragmentToExercisesFragment(ExercisesFragment.Action.VIEW_EXERCISE)
+            navC.navigate(action)
+        }
+        binding.viewTrackedExercises.setOnClickListener {
+            val action = TrainingMenuFragmentDirections
+                .actionTrainingMenuFragmentToExercisesFragment(ExercisesFragment.Action.VIEW_TRACKED_EXERCISE)
             navC.navigate(action)
         }
     }

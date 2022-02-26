@@ -13,7 +13,7 @@ import com.example.stepbook.training.data.WorkoutPlan
 
 class PublicWorkoutsFragment : Fragment() {
 
-    private var _binding : PublicWorkoutsBinding? = null
+    private var _binding: PublicWorkoutsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -21,7 +21,7 @@ class PublicWorkoutsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = PublicWorkoutsBinding.inflate(inflater,container,false)
+        _binding = PublicWorkoutsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -32,13 +32,13 @@ class PublicWorkoutsFragment : Fragment() {
         val userWorkouts = ArrayList<WorkoutPlan>()
 
         FirestoreUtil.fetchPublicWorkouts().continueWithTask { publicWorkoutQuery ->
-            publicWorkoutQuery.getResult().documents.forEach{ doc ->
+            publicWorkoutQuery.result.documents.forEach { doc ->
                 publicWorkouts.add(doc.toObject(WorkoutPlan::class.java)!!)
             }
             FirestoreUtil.fetchUserWorkouts()
         }.addOnCompleteListener { task ->
-            if (task.isSuccessful){
-                task.getResult().documents.forEach{
+            if (task.isSuccessful) {
+                task.result.documents.forEach {
                     userWorkouts.add(it.toObject(WorkoutPlan::class.java)!!)
                 }
                 binding.publicWorkouts.adapter = PublicWorkoutsAdapter(publicWorkouts, userWorkouts)

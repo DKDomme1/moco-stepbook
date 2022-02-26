@@ -42,14 +42,14 @@
             android:id="@+id/action_trainingMenuFragment_to_publicWorkoutsFragment"
             app:destination="@id/publicWorkoutsFragment" />
         <action
-            android:id="@+id/action_trainingMenuFragment_to_publicExercisesFragment"
-            app:destination="@id/publicExercisesFragment" />
-        <action
             android:id="@+id/action_trainingMenuFragment_to_userWorkoutsFragment"
             app:destination="@id/userWorkoutsFragment" />
         <action
             android:id="@+id/action_trainingMenuFragment_to_createWorkoutFragment"
             app:destination="@id/createWorkoutFragment" />
+        <action
+            android:id="@+id/action_trainingMenuFragment_to_exercisesFragment"
+            app:destination="@id/exercisesFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -58,18 +58,6 @@
         <action
             android:id="@+id/action_loginFragment_to_trainingMenuFragment"
             app:destination="@id/trainingMenuFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/publicExercisesFragment"
-        android:name="com.example.stepbook.training.fragments.PublicExercisesFragment"
-        android:label="PublicExercisesFragment" >
-        <action
-            android:id="@+id/action_publicExercisesFragment_to_viewExerciseFragment"
-            app:destination="@id/viewExerciseFragment" />
-        <argument
-            android:name="action"
-            app:argType="com.example.stepbook.training.fragments.PublicExercisesFragment$Action"
-            android:defaultValue="VIEW_EXERCISE" />
     </fragment>
     <fragment
         android:id="@+id/userWorkoutsFragment"
@@ -84,7 +72,18 @@
         android:name="com.example.stepbook.training.fragments.CreateWorkoutFragment"
         android:label="CreateWorkoutFragment" >
         <action
-            android:id="@+id/action_createWorkoutFragment_to_publicExercisesFragment"
-            app:destination="@id/publicExercisesFragment" />
+            android:id="@+id/action_createWorkoutFragment_to_exercisesFragment"
+            app:destination="@id/exercisesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exercisesFragment"
+        android:name="com.example.stepbook.training.fragments.ExercisesFragment"
+        android:label="ExercisesFragment" >
+        <action
+            android:id="@+id/action_exercisesFragment_to_viewExerciseFragment2"
+            app:destination="@id/viewExerciseFragment" />
+        <argument
+            android:name="action"
+            app:argType="com.example.stepbook.training.fragments.ExercisesFragment$Action" />
     </fragment>
 </navigation>

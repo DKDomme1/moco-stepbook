@@ -12,19 +12,20 @@ import com.example.stepbook.training.data.WorkoutPlan
 import com.example.stepbook.training.data.WorkoutUnit
 import com.example.stepbook.training.fragments.ViewWorkoutFragmentDirections
 
-class ViewWorkoutAdapter(val workout: WorkoutPlan) : RecyclerView.Adapter<ViewWorkoutAdapter.ViewHolder>() {
+class ViewWorkoutAdapter(val workout: WorkoutPlan) :
+    RecyclerView.Adapter<ViewWorkoutAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var workoutUnit: WorkoutUnit? = null
-        val exerciseName:TextView = itemView.findViewById(R.id.exercise_name)
-        val sets:TextView = itemView.findViewById(R.id.sets)
-        val reps:TextView = itemView.findViewById(R.id.reps)
+        val exerciseName: TextView = itemView.findViewById(R.id.exercise_name)
+        val sets: TextView = itemView.findViewById(R.id.sets)
+        val reps: TextView = itemView.findViewById(R.id.reps)
         val viewExerciseBtn: Button = itemView.findViewById(R.id.view_exercise)
 
         fun setData(workoutUnit: WorkoutUnit) {
             this.workoutUnit = workoutUnit
-            exerciseName.setText(workoutUnit.exercise!!.name)
-            sets.setText(workoutUnit.sets!!.toString())
-            reps.setText(workoutUnit.reps!!.toString())
+            exerciseName.text = workoutUnit.exercise!!.name
+            sets.text = workoutUnit.sets!!.toString()
+            reps.text = workoutUnit.reps!!.toString()
             viewExerciseBtn.setOnClickListener {
                 val action = ViewWorkoutFragmentDirections
                     .actionViewWorkoutFragmentToViewExerciseFragment(workoutUnit.exercise.docId!!)
@@ -45,7 +46,7 @@ class ViewWorkoutAdapter(val workout: WorkoutPlan) : RecyclerView.Adapter<ViewWo
     }
 
     override fun getItemCount(): Int {
-        if (workout.workout_units !=  null){
+        if (workout.workout_units != null) {
             return workout.workout_units.size
         } else {
             return 0

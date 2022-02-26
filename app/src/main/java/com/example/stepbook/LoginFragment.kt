@@ -17,7 +17,7 @@ import com.google.firebase.ktx.Firebase
 class LoginFragment : Fragment() {
     private val TAG = "LoginFragment"
 
-    private var _binding : LoginBinding? = null
+    private var _binding: LoginBinding? = null
     private val binding get() = _binding!!
 
 
@@ -26,7 +26,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = LoginBinding.inflate(inflater,container,false)
+        _binding = LoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,7 +34,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val auth = Firebase.auth
         val currUser = auth.currentUser
-        if (currUser != null){
+        if (currUser != null) {
             val action = LoginFragmentDirections
                 .actionLoginFragmentToTrainingMenuFragment()
             view.findNavController().navigate(action)
@@ -46,10 +46,10 @@ class LoginFragment : Fragment() {
             val bothNotNullOrBlank =
                 !(email.isNullOrBlank() || password.isNullOrBlank())
 
-            if(bothNotNullOrBlank){
+            if (bothNotNullOrBlank) {
                 auth.signInWithEmailAndPassword(email.toString(), password.toString())
                     .addOnCompleteListener { task ->
-                        if (task.isSuccessful){
+                        if (task.isSuccessful) {
                             Toast.makeText(
                                 this.context,
                                 "Login successful",
@@ -59,10 +59,15 @@ class LoginFragment : Fragment() {
                                 .actionLoginFragmentToTrainingMenuFragment()
                             view.findNavController().navigate(action)
                         } else {
-                            Log.d(TAG, "signInWithEmailAndPassword:failure "+task.exception.toString())
+                            Log.d(
+                                TAG,
+                                "signInWithEmailAndPassword:failure " + task.exception.toString()
+                            )
 
-                            Toast.makeText(this.context, task.exception.toString(),
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this.context, task.exception.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
             }
@@ -74,10 +79,10 @@ class LoginFragment : Fragment() {
             val bothNotNullOrBlank =
                 !(email.isNullOrBlank() || password.isNullOrBlank())
 
-            if(bothNotNullOrBlank){
+            if (bothNotNullOrBlank) {
                 auth.createUserWithEmailAndPassword(email.toString(), password.toString())
                     .addOnCompleteListener { task ->
-                        if(task.isSuccessful) {
+                        if (task.isSuccessful) {
                             Log.d(TAG, "createUserWithEmail:success")
                             Toast.makeText(
                                 this.context,
@@ -90,19 +95,21 @@ class LoginFragment : Fragment() {
                                 auth.currentUser?.email
                             )
                             Firebase.firestore.collection("users")
-                                .document(newUser.uId!!).set( newUser )
+                                .document(newUser.uId!!).set(newUser)
 
                             val action = LoginFragmentDirections
                                 .actionLoginFragmentToTrainingMenuFragment()
                             view.findNavController().navigate(action)
                         } else {
-                            Log.d(TAG, "createUserWithEmail:failure "+task.exception.toString())
+                            Log.d(TAG, "createUserWithEmail:failure " + task.exception.toString())
 
-                            Toast.makeText(this.context, task.exception.toString(),
-                                Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this.context, task.exception.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
-                }
             }
         }
     }
+}

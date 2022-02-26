@@ -19,7 +19,7 @@ import com.google.firebase.ktx.Firebase
 
 class CreateWorkoutFragment : Fragment() {
 
-    private var _binding : CreateWorkoutBinding? = null
+    private var _binding: CreateWorkoutBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -27,23 +27,23 @@ class CreateWorkoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = CreateWorkoutBinding.inflate(inflater,container,false)
+        _binding = CreateWorkoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val model:CreateWorkoutViewModel by activityViewModels()
+        val model: CreateWorkoutViewModel by activityViewModels()
         binding.workoutUnits.adapter = CreateWorkoutAdapter(model.workoutUnits)
         binding.addWorkoutUnit.setOnClickListener {
             val action = CreateWorkoutFragmentDirections
-                .actionCreateWorkoutFragmentToPublicExercisesFragment(
-                    PublicExercisesFragment.Action.CHOOSE_EXERCISE
+                .actionCreateWorkoutFragmentToExercisesFragment(
+                    ExercisesFragment.Action.CHOOSE_EXERCISE
                 )
             view.findNavController().navigate(action)
         }
         binding.saveWorkout.setOnClickListener {
-            if (isWorkoutValid()){
+            if (isWorkoutValid()) {
                 binding.saveWorkout.isEnabled = false
                 val workoutPlan = WorkoutPlan(
                     null,
@@ -52,31 +52,34 @@ class CreateWorkoutFragment : Fragment() {
                     binding.workoutName.text.toString(),
                     binding.workoutDescription.text.toString(),
                     false,
-                    Firebase.auth.currentUser!!.uid)
+                    Firebase.auth.currentUser!!.uid
+                )
                 FirestoreUtil.addUserDefinedWorkout(workoutPlan).addOnCompleteListener {
-                    if (it.isSuccessful){
+                    if (it.isSuccessful) {
                         Toast.makeText(context, "Workout created!", Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     } else {
                         Toast.makeText(context, it.exception!!.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-            }else{
+            } else {
                 Toast.makeText(
                     context,
                     "Please fill all fields with valid values",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
-    private fun isWorkoutValid():Boolean{
-        val model:CreateWorkoutViewModel by activityViewModels()
+
+    private fun isWorkoutValid(): Boolean {
+        val model: CreateWorkoutViewModel by activityViewModels()
         val nameValid = binding.workoutName.text.toString().isNotBlank()
         val descValid = binding.workoutDescription.text.toString().isNotBlank()
         var hasValidUnits = true
-        if(model.workoutUnits.size < 1) hasValidUnits = false
-        model.workoutUnits.forEach{
-            if(it.reps!! < 1 || it.sets!! < 1)  hasValidUnits=false
+        if (model.workoutUnits.size < 1) hasValidUnits = false
+        model.workoutUnits.forEach {
+            if (it.reps!! < 1 || it.sets!! < 1) hasValidUnits = false
         }
         return nameValid && descValid && hasValidUnits
     }

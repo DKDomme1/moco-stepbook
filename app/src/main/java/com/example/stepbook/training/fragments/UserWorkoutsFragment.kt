@@ -12,7 +12,7 @@ import com.example.stepbook.training.data.WorkoutPlan
 
 class UserWorkoutsFragment : Fragment() {
 
-    private var _binding : UserWorkoutsBinding? = null
+    private var _binding: UserWorkoutsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ class UserWorkoutsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = UserWorkoutsBinding.inflate(inflater,container,false)
+        _binding = UserWorkoutsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,13 +29,12 @@ class UserWorkoutsFragment : Fragment() {
 
         FirestoreUtil.fetchUserWorkouts().addOnSuccessListener { userWorkoutQuery ->
             val userWorkouts = ArrayList<WorkoutPlan>()
-            for (document in userWorkoutQuery.documents){
+            for (document in userWorkoutQuery.documents) {
                 document.toObject(WorkoutPlan::class.java)?.let { userWorkouts.add(it) }
             }
             binding.userWorkouts.adapter = UserWorkoutsAdapter(userWorkouts)
-        }
-        .addOnFailureListener {
-            //TODO make toast
+        }.addOnFailureListener {
+                //TODO make toast
         }
         binding.userWorkouts.setHasFixedSize(true)
     }
