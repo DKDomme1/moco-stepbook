@@ -25,4 +25,7 @@
     <string name="remove_point">Remove Point</string>
     <string name="you_didnt_add_any_workouts_yet">You didn\'t add any workouts yet…</string>
     <string name="you_didnt_track_any_exercises_yet">You didn\'t track any exercises yet…</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_2500">/2500</string>
+    <string name="_0">0</string>
 </resources>
