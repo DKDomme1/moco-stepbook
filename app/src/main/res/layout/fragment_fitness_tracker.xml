@@ -14,28 +14,28 @@
         app:cpb_background_progressbar_color="#b6bbd8"
         app:cpb_background_progressbar_width="20dp"
         app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="2500"
         app:cpb_progressbar_color="#0A3561"
         app:cpb_progressbar_width="15dp"
-        app:cpb_progress_max="2500"
-        app:cpb_round_border="false"
-        />
+        app:cpb_round_border="false" />
 
     <TextView
         android:id="@+id/TakenSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:layout_marginVertical="265dp"
         android:text="@string/_0"
         android:textColor="@android:color/black"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        />
 
     <TextView
         android:id="@+id/goal"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="310dp"
+        android:layout_marginVertical="390dp"
         android:text="@string/_2500"
         android:textColor="@android:color/black"
         android:textSize="15sp" />

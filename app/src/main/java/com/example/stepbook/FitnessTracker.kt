@@ -36,7 +36,7 @@ class FitnessTracker : Fragment(),SensorEventListener {
     private var running=false
     private var totalSteps=0f
     private var previousTotalSteps=0f
-    val ACTIVITY_RECOGNITION_REQUEST_CODE = 100
+
 
 
 
@@ -73,6 +73,7 @@ class FitnessTracker : Fragment(),SensorEventListener {
 
 
     override fun onSensorChanged(event: SensorEvent?) {
+        Log.d("LOG","Working")
         if (running){
             totalSteps=event!!.values[0]
             val currentSteps =totalSteps.toInt()-previousTotalSteps.toInt()
@@ -80,6 +81,7 @@ class FitnessTracker : Fragment(),SensorEventListener {
             binding.circularProgressBar.apply {
                 setProgressWithAnimation(currentSteps.toFloat())
             }
+            Log.d("LOG2", "$currentSteps")
 
         }
 
@@ -123,43 +125,7 @@ class FitnessTracker : Fragment(),SensorEventListener {
     }
 
 
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
-                ACTIVITY_RECOGNITION_REQUEST_CODE
-            )
-        }
-    }
 
-    private fun isPermissionGranted(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.ACTIVITY_RECOGNITION
-        ) != PackageManager.PERMISSION_GRANTED
-    }
-
-    //handle requested permission result(allow or deny)
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            ACTIVITY_RECOGNITION_REQUEST_CODE -> {
-                // If request is cancelled, the result arrays are empty.
-                if ((grantResults.isNotEmpty() &&
-                            grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                ) {
-                    // Permission is granted. Continue the action or workflow
-                    // in your app.
-                }
-            }
-        }
-
-    }
 }
 
 
