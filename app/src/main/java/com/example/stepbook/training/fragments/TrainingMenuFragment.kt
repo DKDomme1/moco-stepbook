@@ -55,5 +55,11 @@ class TrainingMenuFragment : Fragment() {
                 .actionTrainingMenuFragmentToExercisesFragment(ExercisesFragment.Action.VIEW_TRACKED_EXERCISE)
             navC.navigate(action)
         }
+        binding.gotoProgressGallery.setOnClickListener{
+
+        }
+        binding.gotoStepCounter.setOnClickListener{
+
+        }
     }
 }
