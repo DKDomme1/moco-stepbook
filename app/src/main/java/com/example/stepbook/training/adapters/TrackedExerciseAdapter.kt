@@ -9,22 +9,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.stepbook.R
 import com.example.stepbook.common.FirestoreUtil
 import com.example.stepbook.training.data.TrackedExercise
+import com.google.firebase.Timestamp
 
-class TrackedExerciseAdapter(val trackedExercise: TrackedExercise?, val clickFunc:()->Unit) :
+class TrackedExerciseAdapter(val trackedExercise: TrackedExercise?, val clickFunc: () -> Unit) :
     RecyclerView.Adapter<TrackedExerciseAdapter.ViewHolder>() {
     private val TAG = "CreateWorkoutAdapter"
-    private var orderedKeys:ArrayList<Long> = ArrayList()
+    private var orderedKeys: ArrayList<Long> = ArrayList()
+
     init {
-        if (trackedExercise != null){
+        if (trackedExercise != null) {
             orderedKeys =
-                trackedExercise.datapoints!!.keys.map { it.toLong() }.sortedBy { it }.toCollection(ArrayList())
+                trackedExercise.datapoints!!.keys.map { it.toLong() }.sortedBy { it }
+                    .toCollection(ArrayList())
         }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name:TextView = itemView.findViewById(R.id.datapoint_name)
-        val value:TextView = itemView.findViewById(R.id.datapoint_value)
-        val removePoint:Button = itemView.findViewById(R.id.remove_datapoint)
+        var key: String? = null
+        val name: TextView = itemView.findViewById(R.id.datapoint_name)
+        val value: TextView = itemView.findViewById(R.id.datapoint_value)
+        val removePoint: Button = itemView.findViewById(R.id.remove_datapoint)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,12 +38,14 @@ class TrackedExerciseAdapter(val trackedExercise: TrackedExercise?, val clickFun
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = orderedKeys[position].toString()
-        holder.value.text = trackedExercise!!.datapoints!![orderedKeys[position].toString()].toString()
+        holder.key = orderedKeys[position].toString()
+        holder.name.text = Timestamp(orderedKeys[position], 0).toDate().toString().dropLast(15)
+        holder.value.text =
+            trackedExercise!!.datapoints!![orderedKeys[position].toString()].toString()
         holder.removePoint.setOnClickListener {
-            val value = trackedExercise.datapoints!!.remove(holder.name.text.toString())
+            val value = trackedExercise.datapoints!!.remove(holder.key)
             FirestoreUtil.setTrackedExercise(trackedExercise).addOnCompleteListener {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     notifyItemRemoved(holder.adapterPosition)
                     clickFunc()
                 }

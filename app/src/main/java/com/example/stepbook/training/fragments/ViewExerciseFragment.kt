@@ -72,7 +72,8 @@ class ViewExerciseFragment : Fragment() {
                         EnterExerciseDataDialogFragment.TAG
                     )
                 }
-                binding.datapoints.adapter = TrackedExerciseAdapter(trackedExercise, {setupViews()})
+                binding.datapoints.adapter =
+                    TrackedExerciseAdapter(trackedExercise, { setupViews() })
 
             } else {
                 Toast.makeText(context, it.exception!!.message.toString(), Toast.LENGTH_SHORT)
@@ -95,14 +96,17 @@ class ViewExerciseFragment : Fragment() {
         }
         var counter = 0f
         data.sortBy { it.x }
-        val processedData = data.map { Entry(counter++,it.y) }
+        val processedData = data.map { Entry(counter++, it.y) }
         //data.map { Entry(Timestamp(it.x.toLong(),0), it.y) }
         val lineDataSet = LineDataSet(processedData, "Data")
         lineDataSet.setDrawCircles(true)
         lineDataSet.enableDashedLine(10f, 0f, 0f)
         lineDataSet.enableDashedHighlightLine(10f, 0f, 0f)
+        lineDataSet.lineWidth = 2f
+        lineDataSet.circleRadius = 6f
         val lineData = LineData(lineDataSet)
         lineData.setValueTextColor(Color.BLACK)
+        lineData.setValueTextSize(11f)
         chart.data = lineData
         chart.setTouchEnabled(true)
         chart.setScaleEnabled(true)

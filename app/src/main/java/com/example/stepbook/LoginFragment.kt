@@ -61,11 +61,11 @@ class LoginFragment : Fragment() {
                         } else {
                             Log.d(
                                 TAG,
-                                "signInWithEmailAndPassword:failure " + task.exception.toString()
+                                "signInWithEmailAndPassword:failure " + task.exception!!.message.toString()
                             )
 
                             Toast.makeText(
-                                this.context, task.exception.toString(),
+                                this.context, task.exception!!.message.toString(),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -101,10 +101,13 @@ class LoginFragment : Fragment() {
                                 .actionLoginFragmentToTrainingMenuFragment()
                             view.findNavController().navigate(action)
                         } else {
-                            Log.d(TAG, "createUserWithEmail:failure " + task.exception.toString())
+                            Log.d(
+                                TAG,
+                                "createUserWithEmail:failure " + task.exception!!.message.toString()
+                            )
 
                             Toast.makeText(
-                                this.context, task.exception.toString(),
+                                this.context, task.exception!!.message.toString(),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

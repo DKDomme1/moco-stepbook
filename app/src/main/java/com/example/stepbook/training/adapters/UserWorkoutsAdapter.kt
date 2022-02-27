@@ -39,7 +39,10 @@ class UserWorkoutsAdapter(private val userWorkouts: ArrayList<WorkoutPlan>) :
 
         holder.viewWorkoutButton.setOnClickListener {
             val action = UserWorkoutsFragmentDirections
-                .actionUserWorkoutsFragmentToViewWorkoutFragment(holder.workoutPlan!!.docId!!, false)
+                .actionUserWorkoutsFragmentToViewWorkoutFragment(
+                    holder.workoutPlan!!.docId!!,
+                    false
+                )
             holder.itemView.findNavController().navigate(action)
         }
 

@@ -53,10 +53,14 @@ class ExercisesFragment : Fragment() {
                             val ex = document.toObject(TrackedExercise::class.java)
                             if (ex != null) {
                                 publicExercises.forEach { publEx ->
-                                    if (publEx.docId == ex.exerciseDocId) trackedExercises.add(publEx)
+                                    if (publEx.docId == ex.exerciseDocId) trackedExercises.add(
+                                        publEx
+                                    )
                                 }
                             }
                         }
+                        if (trackedExercises.isNullOrEmpty()) binding.emptyNotice.visibility =
+                            View.VISIBLE
                         binding.exercises.adapter = ExercisesAdapter(trackedExercises, this)
                         binding.exercises.setHasFixedSize(true)
                     } else {

@@ -32,9 +32,10 @@ class UserWorkoutsFragment : Fragment() {
             for (document in userWorkoutQuery.documents) {
                 document.toObject(WorkoutPlan::class.java)?.let { userWorkouts.add(it) }
             }
+            if (!userWorkouts.isNullOrEmpty()) binding.emptyNotice.visibility = View.GONE
             binding.userWorkouts.adapter = UserWorkoutsAdapter(userWorkouts)
         }.addOnFailureListener {
-                //TODO make toast
+            //TODO make toast
         }
         binding.userWorkouts.setHasFixedSize(true)
     }

@@ -23,4 +23,6 @@
     <string name="save_workout">Save workout</string>
     <string name="publish_workout">Publish workout</string>
     <string name="remove_point">Remove Point</string>
+    <string name="you_didnt_add_any_workouts_yet">You didn\'t add any workouts yet…</string>
+    <string name="you_didnt_track_any_exercises_yet">You didn\'t track any exercises yet…</string>
 </resources>

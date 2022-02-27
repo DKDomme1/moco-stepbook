@@ -41,6 +41,7 @@ class PublicWorkoutsFragment : Fragment() {
                 task.result.documents.forEach {
                     userWorkouts.add(it.toObject(WorkoutPlan::class.java)!!)
                 }
+
                 binding.publicWorkouts.adapter = PublicWorkoutsAdapter(publicWorkouts, userWorkouts)
             } else {
                 Toast.makeText(view.context, task.exception!!.message, Toast.LENGTH_SHORT).show()

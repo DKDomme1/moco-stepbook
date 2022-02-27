@@ -171,11 +171,13 @@ class FirestoreUtil {
                 .collection(TRACKED_EXERCISES_COLLECTION)
                 .get()
         }
-        fun setTrackedExercise(trackedExercise: TrackedExercise) : Task<Void>{
+
+        fun setTrackedExercise(trackedExercise: TrackedExercise): Task<Void> {
             val firestore = FirebaseFirestore.getInstance()
             val uId = Firebase.auth.currentUser!!.uid
             return firestore.collection(USERS_COLLECTION).document(uId).collection(
-                TRACKED_EXERCISES_COLLECTION).document(trackedExercise.docId!!).set(trackedExercise)
+                TRACKED_EXERCISES_COLLECTION
+            ).document(trackedExercise.docId!!).set(trackedExercise)
         }
     }
 }

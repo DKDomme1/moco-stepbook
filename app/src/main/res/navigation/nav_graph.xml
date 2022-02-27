@@ -86,4 +86,14 @@
             android:name="action"
             app:argType="com.example.stepbook.training.fragments.ExercisesFragment$Action" />
     </fragment>
+    <!--
+    <activity
+        android:id="@+id/progressGalleryActivity"
+        android:name="com.example.stepbook.ProgressGalleryActivity"
+        android:label="ProgressGalleryActivity" />
+    <activity
+        android:id="@+id/stepCounterActivity"
+        android:name="com.example.stepbook.StepCounterActivity"
+        android:label="StepCounterActivity" />-->
+
 </navigation>

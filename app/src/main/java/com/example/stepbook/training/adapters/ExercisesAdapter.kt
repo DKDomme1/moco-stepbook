@@ -37,7 +37,8 @@ class ExercisesAdapter(val exercises: List<Exercise>, val fragm: ExercisesFragme
 
             //IDE is not smart enough... (it works)
             if (fragmAction == ExercisesFragment.Action.VIEW_EXERCISE ||
-                fragmAction == ExercisesFragment.Action.VIEW_TRACKED_EXERCISE) {
+                fragmAction == ExercisesFragment.Action.VIEW_TRACKED_EXERCISE
+            ) {
                 actionButton.setOnClickListener {
                     val action = ExercisesFragmentDirections
                         .actionExercisesFragmentToViewExerciseFragment2(exercise.docId!!)
