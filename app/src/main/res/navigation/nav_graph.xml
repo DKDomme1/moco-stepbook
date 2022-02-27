@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
 
@@ -50,6 +51,12 @@
         <action
             android:id="@+id/action_trainingMenuFragment_to_exercisesFragment"
             app:destination="@id/exercisesFragment" />
+        <action
+            android:id="@+id/action_trainingMenuFragment_to_progressGalleryActivity"
+            app:destination="@id/progressGalleryActivity" />
+        <action
+            android:id="@+id/action_trainingMenuFragment_to_fitnessTracker"
+            app:destination="@id/fitnessTracker" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -86,14 +93,13 @@
             android:name="action"
             app:argType="com.example.stepbook.training.fragments.ExercisesFragment$Action" />
     </fragment>
-    <!--
     <activity
         android:id="@+id/progressGalleryActivity"
-        android:name="com.example.stepbook.ProgressGalleryActivity"
+        android:name="com.example.stepbook.progressGallery.ProgressGallery"
         android:label="ProgressGalleryActivity" />
-    <activity
-        android:id="@+id/stepCounterActivity"
-        android:name="com.example.stepbook.StepCounterActivity"
-        android:label="StepCounterActivity" />-->
-
+    <fragment
+        android:id="@+id/fitnessTracker"
+        android:name="com.example.stepbook.FitnessTracker"
+        android:label="fragment_fitness_tracker"
+        tools:layout="@layout/fragment_fitness_tracker" />
 </navigation>

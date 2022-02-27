@@ -56,10 +56,12 @@ class TrainingMenuFragment : Fragment() {
             navC.navigate(action)
         }
         binding.gotoProgressGallery.setOnClickListener{
-
+            val action = TrainingMenuFragmentDirections.actionTrainingMenuFragmentToProgressGalleryActivity()
+            navC.navigate(action)
         }
         binding.gotoStepCounter.setOnClickListener{
-
+            val action =  TrainingMenuFragmentDirections.actionTrainingMenuFragmentToFitnessTracker()
+            navC.navigate(action)
         }
     }
 }
