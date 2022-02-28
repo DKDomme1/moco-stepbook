@@ -57,7 +57,7 @@ This application would become useful when working out in the gym or outside wher
 
 -   User Authentication
 -   Browse the Database for Exercises which contain text instructions
--   Create workouts based on these workouts
+-   Create workouts based on these exercises
 -   Share workouts with other users
 -   Add workouts to your list for quick reference
 -   Track your progress on an exercise by adding data points to a graph
