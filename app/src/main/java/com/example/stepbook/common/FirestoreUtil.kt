@@ -56,13 +56,21 @@ class FirestoreUtil {
                 .document(workoutId).get()
         }
 
-        fun removeUserWorkout(workoutId: String): Task<Void> {
+        fun removeUserWorkout(workout: WorkoutPlan): Task<Unit> {
+            val uId = Firebase.auth.currentUser!!.uid
             return FirebaseFirestore.getInstance()
                 .collection(USERS_COLLECTION)
-                .document(Firebase.auth.currentUser!!.uid)
+                .document(uId)
                 .collection(WORKOUTS_COLLECTION)
-                .document(workoutId)
-                .delete()
+                .document(workout.docId!!)
+                .delete().continueWith{
+                    if (workout.isPublic!! && workout.ownerUId == uId){
+                        FirebaseFirestore.getInstance()
+                            .collection(WORKOUTS_COLLECTION)
+                            .document(workout.publicDocId!!)
+                            .delete()
+                    }
+                }
         }
 
         fun getExerciseById(exerciseId: String): Task<DocumentSnapshot> {

@@ -44,7 +44,9 @@ class PublicWorkoutsFragment : Fragment() {
 
                 binding.publicWorkouts.adapter = PublicWorkoutsAdapter(publicWorkouts, userWorkouts)
             } else {
-                Toast.makeText(view.context, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                if (task.exception != null){
+                    Toast.makeText(view.context, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                }
             }
         }
         binding.publicWorkouts.setHasFixedSize(true)

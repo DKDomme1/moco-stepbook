@@ -47,7 +47,7 @@ class UserWorkoutsAdapter(private val userWorkouts: ArrayList<WorkoutPlan>) :
         }
 
         holder.removeWorkoutButton.setOnClickListener {
-            FirestoreUtil.removeUserWorkout(holder.workoutPlan!!.docId!!).addOnCompleteListener {
+            FirestoreUtil.removeUserWorkout(holder.workoutPlan!!).addOnCompleteListener {
                 if (it.isSuccessful) {
                     holder.removeWorkoutButton.isEnabled = false
                     userWorkouts.removeAt(holder.adapterPosition)
