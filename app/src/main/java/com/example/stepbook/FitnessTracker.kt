@@ -1,24 +1,31 @@
 package com.example.stepbook
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.stepbook.databinding.FragmentFitnessTrackerBinding
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class FitnessTracker : Fragment(),SensorEventListener {
+class FitnessTracker : Fragment(),SensorEventListener,EasyPermissions.PermissionCallbacks {
 
 
     private lateinit var binding: FragmentFitnessTrackerBinding
@@ -27,14 +34,18 @@ class FitnessTracker : Fragment(),SensorEventListener {
     private var totalSteps=0f
     private var previousTotalSteps=0f
 
+    companion object{
+        const val ACTIVITY_RECOGNITION_REQUEST_CODE=100
+    }
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
 
-
-    this.sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        this.sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
 
 
@@ -47,6 +58,7 @@ class FitnessTracker : Fragment(),SensorEventListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        if(!hasActivityPermission()){requestActivityPermission()}
         binding= FragmentFitnessTrackerBinding.inflate(layoutInflater)
         return binding.root    }
 
@@ -82,11 +94,11 @@ class FitnessTracker : Fragment(),SensorEventListener {
         }
         binding.TakenSteps.setOnLongClickListener{
             previousTotalSteps= totalSteps
-           binding.TakenSteps.text= 0.toString()
+            binding.TakenSteps.text= 0.toString()
             saveData()
 
-        true}
-        }
+            true}
+    }
 
     private fun saveData() {
         val sharedPreferences = requireContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
@@ -102,20 +114,44 @@ class FitnessTracker : Fragment(),SensorEventListener {
         previousTotalSteps = savedNumber
 
     }
+    private fun hasActivityPermission()= EasyPermissions.hasPermissions(requireContext(),Manifest.permission.ACTIVITY_RECOGNITION)
 
-
-
-
-
-
-
+    private fun requestActivityPermission(){
+        EasyPermissions.requestPermissions(
+            this,
+            "The Step Counter requires permission to access sensor",
+            ACTIVITY_RECOGNITION_REQUEST_CODE,
+            Manifest.permission.ACTIVITY_RECOGNITION)
+    }
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
 
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode,permissions,grantResults,this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if(EasyPermissions.permissionPermanentlyDenied(this,perms.first())){
+            SettingsDialog.Builder(requireActivity()).build().show()
+        }else{
+            requestActivityPermission()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        Toast.makeText(
+            requireContext(),
+            "Permission Granted!",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 
 
 }
-
-
